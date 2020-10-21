@@ -96,7 +96,7 @@ def register():
 # 		try:
 # 			if usertype == 'Candidate':
 # 				cursor = connection.cursor()
-# 				sql = 'insert into user_details (Name, Age, Gender, Phone, Email, Address, City, State, Adhaar_number) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+# 				sql = 'insert into candidate_details (Name, Age, Gender, Phone, Email, Address, City, State, Adhaar_number) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
 # 				val = (name,age,gender,phone,email,address,city,state,aadhaar)
 # 				cursor.execute(sql,val)
 # 		except TypeError as e:
@@ -155,7 +155,7 @@ def loginscreen():
 			email = request.form['email']	
 			password = request.form['password'] 
 			cursor = connection.cursor()
-			sql = "select user_type_master.User_type, user_type_master.email, user_details.name, user_details.phone, user_details.address, user_details.city, user_details.state from User_details JOIN user_type_master  on user_type_master.User_type_id=user_details.user_type_id WHERE user_type_master.email = %s and Password = %s" 
+			sql = "select user_type_master.User_type, user_type_master.email, candidate_details.name, candidate_details.phone, candidate_details.address, candidate_details.city, candidate_details.state from candidate_details JOIN user_type_master  on user_type_master.User_type_id=candidate_details.user_type_id WHERE user_type_master.email = %s and Password = %s" 
 			sqldt=(email,password)
 			cursor.execute(sql,sqldt)
 			connection.commit()
@@ -173,7 +173,7 @@ def loginscreen():
 				email = request.form['email']	
 				password = request.form['password'] 
 				cursor = connection.cursor()
-				sql = "select User_type , email from user_type_master WHERE Email = %s and Password = %s" 
+				sql = "select user_type,email from user_type_master WHERE user_type_master.email = %s and user_type_master.Password = %s" 
 				sqldt=(email,password)
 				cursor.execute(sql,sqldt)
 				connection.commit()
@@ -219,24 +219,53 @@ def updatepasswordscr():
 	cursor.execute(sql,sqldt)
 	connection.commit()
 	cursor.close()
-	return redirect(url_for('updatedetailuser'))
+	return redirect(url_for('updatedetailuser,html'))
 
 #END
+
+#Admin page Route
+@app.route('/updatepasswordadmin')
+def updatedadmin():
+	return render_template("updatepassadmin.html")
+#End 
+
+
+#Admin password passsword
+@app.route("/updatepasswordscr/",methods=['POST'])
+def updatepassadmin():
+	password = request.form['password'] 
+	print(password)
+	cursor = connection.cursor()
+	sql = "UPDATE `user_type_master` SET `Password`=%s WHERE `email`= %s "
+	sqldt = (password,email)
+	cursor.execute(sql,sqldt)
+	connection.commit()
+	cursor.close()
+	return redirect(url_for('updatepassadmin.html'))
+#End
+
 
 #Submit complaint
 @app.route('/submitcomplaint')
 def submitcomplaint():
-	return render_template("submitcomplaint.html")
+	data=mysql_query("select form_name from exam_form_details")
+	return render_template("submitcomplaint.html",data=data)
 #END
-
-
 
 #Show Complaint and  Route
 @app.route("/complaint/")
 def showcomplaint():
-	data = mysql_query("select c.user_id, u.name, c.type, c.description from complaint_details c, user_details u where u.user_id = c.user_id")
+	data = mysql_query("select c.user_id, u.name, c.type, c.description from complaint_details c, candidate_details u where u.user_id = c.user_id")
 	print(data)
 	return render_template('showcomplaint.html',data=data)
+#END
+
+#Show Admin Complaint and  Route
+@app.route("/Admincomplaint/")
+def admincomplaint():
+	data = mysql_query("select c.user_id, u.name, c.type, c.description from complaint_details c where forward=1")
+	print(data)
+	return render_template('admincomplaint.html',data=data)
 #END
 
 
@@ -250,7 +279,7 @@ def submitfeedback():
 
 @app.route("/feedback/")
 def showfeedback():
-	data = mysql_query("select u.user_id, u.name, f.feedback_msg from user_details u, feedback_details f where u.user_id = f.user_id")
+	data = mysql_query("select u.user_id, u.name, f.feedback_msg from candidate_details u, feedback_details f where u.user_id = f.user_id")
 	print(data)
 	return render_template('showfeedback.html',data=data)
 #END
@@ -258,29 +287,57 @@ def showfeedback():
 #view form code
 @app.route('/viewform')
 def viewform():
-	data=mysql_query("select exam_master.exam_name,exam_master.exam_type,exam_master.name_of_organisation,exam_form_details.form_id,exam_form_details.date_of_opening,exam_form_details.date_of_closing,exam_form_details.fees,exam_form_details.eligibility,exam_form_details.date_of_exam,exam_form_details.link,centre_details.city from exam_form_details join exam_master on exam_form_details.exam_id= exam_master.exam_id join centre_details on exam_form_details.centre_id = centre_details.centre_id")
+	data=mysql_query("select exam_master.exam_name,exam_master.exam_type,exam_master.name_of_organisation,exam_form_details.form_id,exam_form_details.date_of_opening,exam_form_details.date_of_closing,exam_form_details.fees,exam_form_details.eligibility,exam_form_details.date_of_exam,exam_form_details.link,centre_master.city from exam_form_details join exam_master on exam_form_details.exam_id= exam_master.exam_id join centre_master on exam_form_details.centre_id = centre_master.centre_id")
 	return render_template('viewform.html',data=data)
 #END
 
 #Applied form for user
-@app.route("/applied/")
-def showapplied():
-	data = mysql_query("select applied_id,registration_no,date_of_exam,date_of_filling,time_of_filling,user_details.email from applied_form join user_details on applied_form.user_id=user_details.user_id where user_details.Email='{}'".format(session['email']))
-	return render_template('showapplied.html',data=data)
+@app.route("/viewapplied/")
+def viewapplied():
+	data = mysql_query("select applied_id,registration_no,date_of_exam,date_of_filling,time_of_filling,candidate_details.email from applied_form join candidate_details on applied_form.user_id=candidate_details.user_id where candidate_details.email='{}'".format(session['email']))
+	return render_template('viewapplied.html',data=data)
 
 #end
 
 
+ #Admit Card for user
+#@app.route("/Admitcarddownload/")
+#def downlaodadmit():
+	#data = mysql_query("select applied_id,registration_no,date_of_exam,date_of_filling,time_of_filling,candidate_details.email from applied_form join candidate_details on applied_form.user_id=candidate_details.user_id where candidate_details.Email='{}'".format(session['email']))
+	#return render_template('showapplied.html',data=data)
 
-#Admitcard link page rout
+#END
+
+
+#Admitcard link page route
 @app.route('/Admitcard')
 def Admitcard():
 	return render_template("admitcardlink.html")
+
+
+#Manage Managers
+
+@app.route('/managemanager')
+def managemanager():
+	data=mysql_query("select manager_id,name,city,gender,Adhaar_number,afl,status from manager_details")
+	return render_template('managemanager.html',data=data)
+
+#END
+
+
+#Admin Generate
+@app.route('/Report')
+def report():
+	return render_template("report.html")
+#END
+
+
 
 #Forgot Password
 @app.route('/forgotpassword')
 def forgotpassword():
 	return render_template("forgotpassword.html")
+#End
 
 
 
