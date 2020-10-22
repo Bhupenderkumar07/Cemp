@@ -67,43 +67,71 @@ def about():
 	return render_template('about.html')
 
 
-#register page
+#register page route
 @app.route('/register')
 def register():
 	return render_template("register.html")
 
-# #registeration code
-# @app.route('/registerscreen', methods =['POST'])
-# def registerscreen():
-# 	username = request.form['username']
-# 	gender = request.form['gender']
-# 	name = request.form['name']
-# 	age = request.form['age']
-# 	phone = request.form['phone']
-# 	aadhaar = request.form['aadhaar'] 
-# 	email = request.form['email']
-# 	password = request.form['password']
-# 	address = request.form['address']
-# 	city = request.form['city']
-# 	state = request.form['state']
-# 	try:
-# 		if usertype == 'Manager':
-# 			cursor = connection.cursor()
-# 			sql = 'insert into manager_details (Name, Age, Gender, Phone, Email, Address, City, State, Adhaar_number) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
-# 			val = (name,age,gender,phone,email,address,city,state,aadhaar)
-# 			cursor.execute(sql,val)
-# 	except TypeError as e:
-# 		try:
-# 			if usertype == 'Candidate':
-# 				cursor = connection.cursor()
-# 				sql = 'insert into candidate_details (Name, Age, Gender, Phone, Email, Address, City, State, Adhaar_number) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
-# 				val = (name,age,gender,phone,email,address,city,state,aadhaar)
-# 				cursor.execute(sql,val)
-# 		except TypeError as e:
-# 				return render_template("error.html", Message ="wrong password")
-# 	return render_template('Login.html',title = "Login")
+#registeration code
+@app.route('/registerscreen', methods =['GET','POST'])
+def registerscreen():
+	usertype = request.form['usertype']
+	gender = request.form['gender']
+	name = request.form['name']
+	age = request.form['age']
+	phone = request.form['phone']
+	aadhaar = request.form['aadhaar'] 
+	email = request.form['email']
+	password = request.form['password']
+	address = request.form['address']
+	city = request.form['city']
+	state = request.form['state']
+	try:
+		if usertype == 'Manager':
+			cursor = connection.cursor()
+			sql = 'insert into manager_details (Name, Age, Gender, Phone, Email, Address, City, State, Adhaar_number) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+			val = (name,age,gender,phone,email,address,city,state,aadhaar)
+			cursor.execute(sql,val)
 
+			sql = 'insert into user_type_master (Email, User_type, Password) values (%s, %s, %s)'
+			val = (email,usertype,password)
+			cursor.execute(sql,val)
 
+			sql = 'select user_type_id from user_type_master where Email = %s'
+			val = (email)
+			cursor.execute(sql,val)
+			data = cursor.fetchone()
+
+			sql = 'Update manager_details set user_type_id = %s where email = %s'
+			val = (data,email)
+			cursor.execute(sql,val)
+			connection.commit()
+			cursor.close()
+		else:
+			cursor = connection.cursor()
+			sql = 'insert into candidate_details (Name, Age, Gender, Phone, Email, Address, City, State, Adhaar_number) values (%s, %s, %s, %s, %s, %s, %s, %s, %s)'
+			val = (name,age,gender,phone,email,address,city,state,aadhaar)
+			cursor.execute(sql,val)
+
+			sql = 'insert into user_type_master (Email, User_type, Password) values (%s, %s, %s)'
+			val = (email,usertype,password)
+			cursor.execute(sql,val)
+
+			sql = 'select user_type_id from user_type_master where Email = %s'
+			val = (email)
+			cursor.execute(sql,val)
+			data = cursor.fetchone()
+
+			sql = 'Update candidate_details set user_type_id = %s where email = %s'
+			val = (data,email)
+			cursor.execute(sql,val)
+			connection.commit()
+			cursor.close()
+
+	except TypeError as e:
+		return render_template("error.html", Message ="wrong password")
+	return render_template('Login.html',title = "Login")
+#End
 
 #Manage forms Page
 @app.route('/Manageform')
@@ -300,11 +328,12 @@ def viewapplied():
 #end
 
 
- #Admit Card for user
-#@app.route("/Admitcarddownload/")
-#def downlaodadmit():
-	#data = mysql_query("select applied_id,registration_no,date_of_exam,date_of_filling,time_of_filling,candidate_details.email from applied_form join candidate_details on applied_form.user_id=candidate_details.user_id where candidate_details.Email='{}'".format(session['email']))
-	#return render_template('showapplied.html',data=data)
+#Admit Card for user
+@app.route("/downlaodadmit/")
+def downlaodadmit():
+	data = mysql_query("select exam_form_details.form_name,applied_form.date_of_filling,admit_card_details.issue_date,admit_card_details.date_of_exam,admit_card_details.card_available,admit_card_details.centre,admit_card_details.link from admit_card_details join applied_form on admit_card_details.applied_id=applied_form.applied_id join exam_form_details on applied_form.form_id=exam_form_details.form_id join candidate_details on applied_form.user_id=candidate_details.user_id where candidate_details.Email='{}'".format(session['email']))
+	print(data)
+	return render_template('downloadadmitcard.html',data=data)
 
 #END
 
