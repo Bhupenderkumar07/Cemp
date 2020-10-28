@@ -25,7 +25,7 @@
                     <div class="col-lg-12 col-xlg-12 col-md-12">
                         <div class="card">
                             <div class="card-body profile-card">
-                                 <form id="Login" action="" method="post">
+                                 <form id="Login" action="{{ url_for('Manageform')}}" method="post" name="form1">
                                     
 
        <div class="form-group">
@@ -77,7 +77,7 @@
          <div class="form-group">
                                         <div class="row">
                                             <div class="col-12" style="padding-left: 180px;">
-                                            <button class="btn btn-warning text-white col-6">Add Form</button>
+                                            <button class="btn btn-warning text-white col-6" name="button1">Add Form</button>
                                             </div>
                                         </div>
                                     </div>
@@ -102,19 +102,22 @@
  
  </br>
 
-                    
+       {{ exam }}             
 
 <div class="row">
                     <div class="col-lg-12 col-xlg-12 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                 <form id="Login" action="" method="post">
+                                 <form id="Login" action="{{ url_for('Manageform')}}" method="post">
                                     
                                     <div class="form-group">
                                      <label><h5 style="font-weight: bold;padding-left: 100px;">Exam Id :</h5></label>
                                      <center>
-                                            <select class="form-control pl-0 form-control-line" required style="height: 40px; width: 300px" placeholder="Exam Id">
-                                                <option>101</option>
+                                            <select class="form-control pl-0 form-control-line" required style="height: 40px; width: 300px" placeholder="Exam Id" name="examid">
+                                                <option>select</option>
+                                                {% for item in data%}
+                                                <option value="{{ item['exam_id'] }}">{{ item['exam_id'] }}</option>
+                                                {% endfor %}
                                             </select>
                                         </center>
                                     </div>
@@ -123,7 +126,7 @@
         <label><h5 style="font-weight: bold;padding-left: 100px;">Exam name :</h5></label>
         </br>
             <center>
-            <input class="au-input au-input--full" type="text" id="ename" name="ename" placeholder="Enter Exam name" required style="height: 40px; width: 300px">
+            <input class="au-input au-input--full" type="text" id="ename" name="ename" placeholder="Enter Exam name" required style="height: 40px; width: 300px" required>
         </center>
         </div>
 
@@ -131,7 +134,7 @@
             <label><h5 style="font-weight: bold;padding-left: 100px;">Enter Type :</h5></label>
             </br>
             <center>
-            <input class="au-input au-input--full" type="text" id="etype" name="etype" placeholder="Type of Exam" required style="height: 40px; width: 300px">
+            <input class="au-input au-input--full" type="text" id="etype" name="etype" placeholder="Type of Exam" required style="height: 40px; width: 300px" required >
         </center>
         </div>
 
@@ -139,7 +142,7 @@
             <label><h5 style="font-weight: bold;padding-left: 100px;">Exam Niche :</h5></label>
             </br>
             <center>
-            <input class="au-input au-input--full" type="text" id="niche" name="niche" placeholder="Enter Exam Niche" required style="height: 40px; width: 300px">
+            <input class="au-input au-input--full" type="text" id="niche" name="niche" placeholder="Enter Exam Niche" required style="height: 40px; width: 300px" required>
         </center>
         </div>
 
@@ -147,7 +150,7 @@
             <label><h5 style="font-weight: bold;padding-left: 100px;">Name Of Organisation :</h5></label>
             </br>
             <center>
-            <input class="au-input au-input--full" type="text" id="noo" name="noo" placeholder="Enter Name Of Organisation" required style="height: 40px; width: 300px">
+            <input class="au-input au-input--full" type="text" id="noo" name="noo" placeholder="Enter Name Of Organisation" required style="height: 40px; width: 300px" required>
         </center>
         </div>
 
@@ -155,20 +158,20 @@
             <label><h5 style="font-weight: bold;padding-left: 100px;">City :</h5></label>
             </br>           
             <center>
-            <input class="au-input au-input--full" type="text" id="city" name="city" placeholder="Enter City" required style="height: 40px; width: 300px">
+            <input class="au-input au-input--full" type="text" id="city" name="city" placeholder="Enter City" required style="height: 40px; width: 300px" required>
         </center>
         </div>
         <div class="form-group">
             <label><h5 style="font-weight: bold;padding-left: 100px;">State :</h5></label>
             </br>
             <center>
-            <input class="au-input au-input--full" type="text" id="state" name="state" placeholder="Enter State" required style="height: 40px; width: 300px">
+            <input class="au-input au-input--full" type="text" id="state" name="state" placeholder="Enter State" required style="height: 40px; width: 300px" required>
         </center>
         </div>
    
          <div class="form-group">
                                         <div class="col-12" style="padding-left: 180px;">
-                                            <button class="btn btn-warning text-white col-6">Update Form</button>
+                                            <button class="btn btn-warning text-white col-6" name="button2">Update Form</button>
                                         </div>
                                     </div>
 
