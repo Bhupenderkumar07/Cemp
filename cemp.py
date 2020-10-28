@@ -134,22 +134,65 @@ def registerscreen():
 #End
 
 #Manage forms Page
-@app.route('/Manageform')
+@app.route('/Manageform',methods=["GET",'POST'])
 def Manageform():
-	return render_template("manageform.html")
+	data=mysql_query("select exam_id from exam_master")
+	if request.method=="POST":
+		if "button1" in request.form:
+			ename=request.form['ename']
+			etype=request.form['etype']
+			niche=request.form['niche']
+			noo=request.form['noo']
+			city=request.form['city']
+			state=request.form['state']
+			mysql_query("insert into exam_master values({},{},{},{},{},{})".format(ename,etype,niche,noo,city,state)) 		
+		elif "button2" in request.form:
+			eid=request.form['examid']
+			ename=request.form['ename']
+			etype=request.form['etype']
+			niche=request.form['niche']
+			noo=request.form['noo']
+			city=request.form['city']
+			state=request.form['state']
+			mysql_query(" UPDATE exam_master SET exam_name='{}',exam_type='{}',exam_niche='{}',name_of_organisation='{}',city='{}',state='{}' where exam_id='{}'".format(exam_name,etype,niche,noo,city,state,eid))
+		redirect(url_for('Manageform'))
+	return render_template('Manageform.html',data=data)
+
+
+	
+
+
 
 #Manage link Page
-@app.route('/Managelink')
+@app.route('/Managelink/',methods=['GET',"POST"])
 def Managelink():
-	return render_template("managelink.html")
-
-
-
-#Manage link Page
-#@app.route('/showcomplaint')
-
-#def showcomplaint():
-	#return render_template("showcomplaint.html")
+	form=mysql_query("select form_id,form_name from exam_form_details")
+	centre=mysql_query("select centre_id from centre_master")
+	exam=mysql_query("select exam_id,exam_name from exam_master")
+	if request.form=="POST":
+		if "button1" in request.form:
+			ename=request.form['ename']
+			cid=request.form['cid']
+			fname=request.form['fname']
+			doo=request.form['doo']
+			doc=request.form['doc']
+			fees=request.form['fees']
+			eli=request.form['eli']
+			link=request.form['link']
+			doe=request.form['doe']
+			mysql_query("insert into exam_form_details values({},{},{},{},{},{},{},{},{})".format(fname,ename,cid,doo,doc,fees,eli,link,doe))
+		elif "button2" in request.form:
+			ename=request.form['ename']
+			fname=request.form['fname']
+			doo=request.form['doo']
+			doc=request.form['doc']
+			fees=request.form['fees']
+			eli=request.form['eli']
+			link=request.form['link']
+			doe=request.form['doe']
+			mysql_query("UPDATE exam_form_details set form_name='{}',date_of_opening='{}',date_of_closing='{}',fees='{}',eligibility='{}',link='{}',date_of_exam='{}' where form_id='{}'".format(fname,doo.doc,fees,eli,link,doe,ename))
+			redirect(url_for('Managelink'))
+	return render_template("managelink.html",exam=exam,centre=centre,form=form)
 
 
 #Login Page
@@ -165,19 +208,15 @@ def loginscreen():
 		email = request.form['email']	
 		password = request.form['password'] 
 		cursor = connection.cursor()
-		sql = "select user_type_master.User_type , user_type_master.email, manager_details.name, manager_details.phone, manager_details.address, manager_details.city, manager_details.state from manager_details JOIN user_type_master  on user_type_master.User_type_id=manager_details.user_type_id WHERE user_type_master.email = %s and Password = %s" 
+		sql = "select user_type_master.User_type , user_type_master.email, manager_details.name, manager_details.phone, manager_details.Address, manager_details.city, manager_details.state from manager_details JOIN user_type_master  on user_type_master.User_type_id=manager_details.user_type_id WHERE user_type_master.email = %s and Password = %s" 
 		sqldt=(email,password)
 		cursor.execute(sql,sqldt)
 		connection.commit()
 		account = cursor.fetchone()
 		session['user_type'] = account[0]
-		print(session['user_type'])
 		session['email'] = account[1]
-		session['name']=account[2]
-		session['phone'] = account[3]
-		session['address'] = account[4]
-		session['city'] = account[5]
-		session['state'] = account[6]
+		session['name'] = account[2]
+
 	except TypeError as e:
 		try:
 			email = request.form['email']	
@@ -189,13 +228,8 @@ def loginscreen():
 			connection.commit()
 			account = cursor.fetchone()
 			session['user_type'] = account[0]
-			print(session['user_type'])
 			session['email'] = account[1]
 			session['name'] = account[2]
-			session['phone'] = account[3]
-			session['address'] = account[4]
-			session['city'] = account[5]
-			session['state'] = account[6]
 		except TypeError as e:
 			try:
 				email = request.form['email']	
@@ -229,18 +263,12 @@ def logout():
 #Logout Code End
 
 
-#Update detaila 
-
-@app.route('/updatedetailuser')
-def updatedetailuser():
-	return render_template("updatedetailuser.html")
-
 
 #UPDATE PASSWORD CODE
 @app.route("/updatepasswordscr/",methods=['POST'])
 def updatepasswordscr():
 	password = request.form['password'] 
-	print(password)
+	email=session['email']
 	cursor = connection.cursor()
 	sql = "UPDATE `user_type_master` SET `Password`=%s WHERE `email`= %s "
 	sqldt = (password,email)
@@ -281,19 +309,25 @@ def submitcomplaint():
 #END
 
 #Show Complaint and  Route
-@app.route("/complaint/")
+@app.route("/complaint/",methods=["POST","GET"])
 def showcomplaint():
-	data = mysql_query("select c.user_id, u.name, c.type, c.description from complaint_details c, candidate_details u where u.user_id = c.user_id")
-	print(data)
+	data = mysql_query("select c.complaint_id, c.user_id, u.name, c.type, c.description,c.forward from complaint_details c, candidate_details u where u.user_id = c.user_id")
+	if request.method=="POST":
+		if "button1" in request.form:
+			cid=request.form['cid']
+			print(cid)
+			mysql_query(" UPDATE complaint_details set forward='{}' where Complaint_id='{}'".format("Yes",cid))
+			redirect(url_for('showcomplaint'))
 	return render_template('showcomplaint.html',data=data)
 #END
+
 
 #Show Admin Complaint and  Route
 @app.route("/Admincomplaint/")
 def admincomplaint():
-	data = mysql_query("select c.user_id, u.name, c.type, c.description from complaint_details c where forward=1")
+	data = mysql_query("select c.user_id, u.name, c.type, c.description from complaint_details c, candidate_details u where u.user_id = c.user_id where forward ='{}'".format("yes"))
 	print(data)
-	return render_template('admincomplaint.html',data=data)
+	return render_template('admincomplain.html',data=data)
 #END
 
 
@@ -322,7 +356,7 @@ def viewform():
 #Applied form for user
 @app.route("/viewapplied/")
 def viewapplied():
-	data = mysql_query("select applied_id,registration_no,date_of_exam,date_of_filling,time_of_filling,candidate_details.email from applied_form join candidate_details on applied_form.user_id=candidate_details.user_id where candidate_details.email='{}'".format(session['email']))
+	data = mysql_query("select applied_id,registration_no,exam_form_details.form_name,date_of_filling,time_of_filling,candidate_details.email from applied_form join exam_form_details on applied_form.form_id=exam_form_details.form_id join candidate_details on applied_form.user_id=candidate_details.user_id where candidate_details.email='{}'".format(session['email']))
 	return render_template('viewapplied.html',data=data)
 
 #end
@@ -339,14 +373,31 @@ def downlaodadmit():
 
 
 #Admitcard link page route
-@app.route('/Admitcard')
+@app.route('/Admitcard',methods=["GET","POST"])
 def Admitcard():
-	return render_template("admitcardlink.html")
+	form=mysql_query("select form_id,form_name from exam_form_details")
+	if request.method=="POST":
+		if "button1" in request.form:
+			cur=date.today();
+			card=request.form['card']
+			fname=request.form['fname']
+			doe=request.form['doe']
+			link=request.form['link']
+			mysql_query("insert admit_card_details values({},{},{},{},{})".format(fname,card,cur,doe,link))
+		if "button2" in request.form:
+			cur=date.today();
+			card=request.form['card']
+			fname=request.form['fname']
+			doe=request.form['doe']
+			link=request.form['link']
+			mysql_query("UPDATE admit_card_details set card_available='{}',issue_date='{}',date_of_exam='{}',link='{}', where form_id='{}'".format(card,cur,doe,link,fname))
+			redirect(url_for('Admitcard'))
+	return render_template("admitcardlink.html",form=form)
 
 
 #Manage Managers
 
-@app.route('/managemanager')
+@app.route('/managemanager/')
 def managemanager():
 	data=mysql_query("select manager_id,name,city,gender,Adhaar_number,afl,status from manager_details")
 	return render_template('managemanager.html',data=data)
@@ -367,6 +418,32 @@ def report():
 def forgotpassword():
 	return render_template("forgotpassword.html")
 #End
+
+#update details screen
+@app.route('/updatedetails/',methods=["GET",'POST'])
+def updatedetailsscr():
+	utype=session['user_type']
+	email=session['email']
+	account =mysql_query("select user_type_master.User_type , user_type_master.email, manager_details.name, manager_details.phone, manager_details.Address, manager_details.city, manager_details.state from manager_details JOIN user_type_master  on user_type_master.User_type_id=manager_details.user_type_id WHERE user_type_master.email='{}'".format(email))
+	candidate =mysql_query("select user_type_master.User_type, user_type_master.email, candidate_details.name, candidate_details.phone, candidate_details.address, candidate_details.city, candidate_details.state from candidate_details JOIN user_type_master  on user_type_master.User_type_id=candidate_details.user_type_id WHERE user_type_master.email='{}'".format(email))
+	if request.method == "POST":
+		if utype =="Manager":
+			name=request.form['name']
+			email=request.form['email']
+			phone=request.form['phone']
+			address=request.form['address']
+			city=request.form['city']
+			state=request.form['state']
+			mysql_query("UPDATE  manager_details SET name='{}',email='{}',phone='{}',address='{}',city='{}',state='{}' where email='{}'".format(name,email,phone,address,city,state,session['email']))	
+		if utype =="candidate":
+			name=request.form['name']
+			email=request.form['email']
+			phone=request.form['phone']
+			address=request.form['address']
+			city=request.form['city']
+			state=request.form['state']
+			mysql_query("UPDATE  candidate_details SET name='{}',email='{}',phone='{}',address='{}',city='{}',state='{}' where email='{}'".format(name,email,phone,address,city,state,session['email']))
+	return render_template('updatedetailuser.html',account=account,candidate=candidate)
 
 
 

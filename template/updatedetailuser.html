@@ -38,70 +38,57 @@
  <!-- End of Update Password -->
 
  <!-- Update Docs -->
+
      <div class="col-lg-8 col-xlg-9 col-md-7">
                         <div class="card">
                             <div class="card-body">
-                                <form class="form-horizontal form-material">
+
+ {% if session['user_type']== "Manager" %}
+                    
+<form id="update" action="{{ url_for('updatedetailsscr') }}" method="POST" name="form">
+
                                     <div class="form-group">
                                         <label class="col-md-12 mb-0">Full Name</label>
                                         <div class="col-md-12">
-                                            <input type="text" Placeholder="{{ session['name'] }}"
-                                                class="form-control pl-0 form-control-line">
+                                            <input type="text" value="{{ account[0]['name'] }}"
+                                                class="form-control pl-0 form-control-line" name="name">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="example-email" class="col-md-12">Email</label>
                                         <div class="col-md-12">
-                                            <input type="email" Placeholder="{{ session['email'] }}"
-                                                class="form-control pl-0 form-control-line" name="example-email"
+                                            <input type="email" value="{{ account[0]['email'] }}"
+                                                class="form-control pl-0 form-control-line" name="email"
                                                 id="example-email">
                                         </div>
                                     </div>
-                                   <!--  <div class="form-group">
-                                        <label class="col-md-12 mb-0">Password</label>
-                                        <div class="col-md-12">
-                                            <input type="password" value="{{session['[password]']}}"
-                                                class="form-control pl-0 form-control-line" id="password3">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="checkbox" onclick="myFunction2()"> Show Password</input>
-                                        </div>
-                                    </div> -->
+                                  
                                     <div class="form-group">
                                         <label class="col-md-12 mb-0">Phone No</label>
                                         <div class="col-md-12">
-                                            <input type="text" Placeholder="{{ session['phone'] }}"
-                                                class="form-control pl-0 form-control-line">
+                                            <input type="text" value="{{ account[0]['phone'] }}"
+                                                class="form-control pl-0 form-control-line" name="phone">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-md-12 mb-0">Address</label>
                                         <div class="col-md-12">
-                                            <textarea rows="2" class="form-control pl-0 form-control-line" Placeholder="{{ session['address'] }}"></textarea>
+                                            <input rows="2"  value ="{{ account[0]['Address'] }}" class="form-control pl-0 form-control-line" name="address">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-12">City</label>
                                         <div class="col-sm-12">
-                                            <select class="form-control pl-0 form-control-line">
-                                                <option>{{ session['city'] }}</option>
-                                                <option>Udaipur</option>
-                                                <option>Pune</option>
-                                                <option>Chittaurgarh</option>
-                                                <option>Kota</option>
-                                            </select>
+                                                <input type="text" value="{{ account[0]['city'] }}"
+                                                class="form-control pl-0 form-control-line" name="city">
+                                           
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label class="col-sm-12">State</label>
                                         <div class="col-sm-12">
-                                            <select class="form-control pl-0 form-control-line">
-                                                <option>{{ session['state'] }}</option>
-                                                <option>Rajasthan</option>
-                                                <option>Gujarat</option>
-                                                <option>Maharashtra</option>
-                                                <option>Madhya Pradesh</option>
-                                            </select>
+                                               <input type="text" value="{{ account[0]['state'] }}"
+                                                class="form-control pl-0 form-control-line" name="state">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -111,6 +98,64 @@
                                         </div>
                                     </div>
                                 </form>
+                                {% endif %}
+
+{% if session['user_type']== "Candidate" %}
+                    
+<form id="update" action="{{ url_for('updatedetailsscr') }}" method="POST" name="form">
+
+                                    <div class="form-group">
+                                        <label class="col-md-12 mb-0">Full Name</label>
+                                        <div class="col-md-12">
+                                            <input type="text" value="{{ Candidate[0]['name'] }}"
+                                                class="form-control pl-0 form-control-line" name="name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="example-email" class="col-md-12">Email</label>
+                                        <div class="col-md-12">
+                                            <input type="email" value="{{ Candidate[0]['email'] }}"
+                                                class="form-control pl-0 form-control-line" name="email"
+                                                id="example-email">
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="form-group">
+                                        <label class="col-md-12 mb-0">Phone No</label>
+                                        <div class="col-md-12">
+                                            <input type="text" value="{{ Candidate[0]['phone'] }}"
+                                                class="form-control pl-0 form-control-line" name="phone">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-12 mb-0">Address</label>
+                                        <div class="col-md-12">
+                                            <input rows="2"  value ="{{ Candidate[0]['Address'] }}" class="form-control pl-0 form-control-line" name="address">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12">City</label>
+                                        <div class="col-sm-12">
+                                                <input type="text" value="{{ Candidate[0]['city'] }}"
+                                                class="form-control pl-0 form-control-line" name="city">
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-12">State</label>
+                                        <div class="col-sm-12">
+                                               <input type="text" value="{{ Candidate[0]['state'] }}"
+                                                class="form-control pl-0 form-control-line" name="state">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-12 d-flex">
+                                            <button class="btn btn-success mx-auto mx-md-0 text-white">Update
+                                                Details</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
