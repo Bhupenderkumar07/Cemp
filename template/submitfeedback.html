@@ -53,7 +53,7 @@ h1 { font-size: 1.5em; margin: 10px; }
                     <div class="col-lg-9 col-xlg-6 col-md-6">
                         <div class="card">
                             <div class="card-body profile-card">
-                                 <form id="Login" action="" method="post">
+                                 <form  action="{{url_for('submitfeedback')}}" method="post">
 
                                     <h2 align="center"> We are happy to hear from you !! </h1> 
                                         <br>
@@ -81,7 +81,7 @@ h1 { font-size: 1.5em; margin: 10px; }
                                        
                                      <label><h5 style="font-weight: normal;">What should we change in order to live up to your expectations  :</h5></label>
                                       <center>
-                                     <textarea rows="4" cols="90"></textarea> 
+                                     <textarea rows="4" cols="90" name="desc"></textarea> 
                                      </center>
                                     </div>
 
@@ -112,7 +112,7 @@ h1 { font-size: 1.5em; margin: 10px; }
      
                                     <div class="form-group">
                                         <div class="col-12" style="padding-left: 180px;">
-                                            <button class="btn btn-warning text-white col-6">Submit Feedback</button>
+                                            <button class="btn btn-warning text-white col-6" name="button1" type="Submit">Submit Feedback</button>
                                         </div>
                                     </div>
 

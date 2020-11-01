@@ -11,11 +11,13 @@
                                         <thead>
                                             <tr>
                                                 <th class="border-top-0" style="font-weight: bold;font-size: 17px;">Form Name</th>
-                                                <th class="border-top-0" style="font-weight: bold;font-size: 17px;">Filled Date</th>
+                                                <th class="border-top-0" style="font-weight: bold;font-size: 17px;">Submit Date</th>
+                                                 <th class="border-top-0" style="font-weight: bold;font-size: 17px;">Submit Time</th>
                                                 <th class="border-top-0"style="font-weight: bold;font-size: 17px;">Date of Exam</th>
                                                 <th class="border-top-0" style="font-weight: bold;font-size: 17px;">Issue Date</th>
                                                 <th class="border-top-0" style="font-weight: bold;font-size: 17px;">Availability</th>
-                                                <th class="border-top-0" style="font-weight: bold;font-size: 17px;">Centre</th>
+                                                <th class="border-top-0" style="font-weight: bold;font-size: 17px;">Status</th>
+                                               
 
                                             </tr>
                                         </thead>
@@ -24,13 +26,20 @@
                                             <tr>
                                                 <td>{{ item['form_name'] }}</td>
                                                 <td>{{ item['date_of_filling'] }}</td>
+                                                <td>{{ item['time_of_filling'] }}</td>
                                                 <td>{{ item['date_of_exam'] }}</td>
                                                 <td>{{ item['issue_date'] }}</td>
                                                 <td>{{ item['card_available'] }}</td>
-                                                <td>{{ item['centre'] }}</td>
+                                                {% if item['card_available']=="yes"%}
                                                 <td><button class="btn btn-warning mx-auto mx-md-0 text-white">
                                             Download
                                             </button></td>
+                                            {% else %}
+                                             <td><button class="btn btn-dark disabled mx-auto mx-md-0 text-white">
+                                            N/A
+                                            </button></td>
+                                            {% endif %}
+
                                             </tr>
 
                                            

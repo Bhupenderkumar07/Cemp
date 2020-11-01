@@ -100,7 +100,7 @@
                                 </form>
                                 {% endif %}
 
-{% if session['user_type']== "Candidate" %}
+{% if session['user_type'] == "Candidate" %}
                     
 <form id="update" action="{{ url_for('updatedetailsscr') }}" method="POST" name="form">
 
@@ -130,7 +130,7 @@
                                     <div class="form-group">
                                         <label class="col-md-12 mb-0">Address</label>
                                         <div class="col-md-12">
-                                            <input rows="2"  value ="{{ Candidate[0]['Address'] }}" class="form-control pl-0 form-control-line" name="address">
+                                            <input rows="2"  value ="{{ Candidate[0]['address'] }}" class="form-control pl-0 form-control-line" name="address">
                                         </div>
                                     </div>
                                     <div class="form-group">
