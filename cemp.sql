@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 28, 2020 at 06:03 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.4.11
+-- Generation Time: Oct 30, 2020 at 03:55 PM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 7.2.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -45,7 +46,15 @@ INSERT INTO `admit_card_details` (`Admit_card_id`, `Form_id`, `Card_available`, 
 (1, 3, 'Yes', '2020-10-08', '2020-12-18', ''),
 (2, 8, 'Yes', '2020-10-07', '2020-10-18', 'rgform8.link'),
 (3, 6, 'No', '2020-10-01', '2020-10-30', ''),
-(4, 7, 'No', '2020-10-05', '2020-10-31', '');
+(4, 7, 'No', '2020-10-05', '2020-10-31', ''),
+(9, 1, 'Yes', '2020-09-01', '2020-11-25', ''),
+(10, 2, 'No', '2020-10-28', '2021-01-15', ''),
+(11, 3, 'Yes', '2020-09-16', '2021-03-07', ''),
+(12, 4, 'No', '2020-06-20', '2020-10-31', ''),
+(13, 5, 'Yes', '2020-06-30', '2020-12-29', ''),
+(14, 6, 'No', '2020-07-09', '2021-02-10', ''),
+(15, 7, 'Yes', '2020-10-20', '2021-05-02', ''),
+(16, 8, 'No', '2020-08-31', '2021-05-27', '');
 
 -- --------------------------------------------------------
 
@@ -59,21 +68,32 @@ CREATE TABLE `applied_form` (
   `Exam_id` int(20) DEFAULT NULL,
   `User_id` int(20) DEFAULT NULL,
   `Registration_no` varchar(30) NOT NULL,
-  `Date_of_filling` timestamp NULL DEFAULT current_timestamp(),
-  `Time_of_filling` timestamp NOT NULL DEFAULT current_timestamp()
+  `Date_of_filling` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `Time_of_filling` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `centre` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `applied_form`
 --
 
-INSERT INTO `applied_form` (`Applied_id`, `Form_id`, `Exam_id`, `User_id`, `Registration_no`, `Date_of_filling`, `Time_of_filling`) VALUES
-(1, 1, 1, 2, 'GJ-10001', '2020-10-10 10:43:47', '2020-10-10 10:43:47'),
-(3, 3, 3, 4, 'GJ-10003', '2020-10-12 10:44:53', '2020-10-10 10:44:53'),
-(5, 8, 8, 5, 'RG-10003', '2020-10-13 12:11:03', '2020-10-28 12:11:03'),
-(6, 6, 6, 10, 'PM-1006', '2020-10-19 12:11:38', '2020-10-28 12:11:38'),
-(7, 7, 7, 12, 'SJ-10004', '2020-10-28 12:11:03', '2020-10-28 12:11:03'),
-(8, 2, 1, 12, 'AH-10001', '2020-10-28 14:49:09', '2020-10-28 14:49:09');
+INSERT INTO `applied_form` (`Applied_id`, `Form_id`, `Exam_id`, `User_id`, `Registration_no`, `Date_of_filling`, `Time_of_filling`, `centre`) VALUES
+(1, 1, 1, 2, 'GJ-10001', '2020-10-10 10:43:47', '2020-10-10 10:43:47', ''),
+(3, 3, 3, 4, 'GJ-10003', '2020-10-12 10:44:53', '2020-10-10 10:44:53', ''),
+(5, 8, 8, 5, 'RG-10003', '2020-10-13 12:11:03', '2020-10-28 12:11:03', ''),
+(6, 6, 6, 10, 'PM-1006', '2020-10-19 12:11:38', '2020-10-28 12:11:38', ''),
+(7, 7, 7, 12, 'SJ-10004', '2020-10-28 12:11:03', '2020-10-28 12:11:03', ''),
+(8, 2, 1, 12, 'AH-10001', '2020-10-28 14:49:09', '2020-10-28 14:49:09', ''),
+(9, 1, 1, 36, 'BB-10505', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
+(10, 2, 2, 37, 'RA-10066', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
+(11, 3, 3, 38, 'SK-100303', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
+(12, 4, 4, 39, 'PK-10404', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
+(13, 5, 5, 40, 'RR-105505', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
+(14, 6, 6, 41, 'HB-10006', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
+(15, 7, 7, 42, 'AJ-0907', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
+(16, 8, 8, 43, 'AD-1040343', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
+(17, 1, 1, 44, 'KV-44', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
+(18, 2, 2, 45, 'TS-00045', '2020-10-30 14:38:42', '2020-10-30 14:38:42', '');
 
 -- --------------------------------------------------------
 
@@ -86,30 +106,41 @@ CREATE TABLE `candidate_details` (
   `User_type_id` int(20) DEFAULT NULL,
   `Name` varchar(20) NOT NULL,
   `Email` varchar(50) NOT NULL,
-  `Age` int(2) NOT NULL,
+  `Dob` date NOT NULL,
   `Gender` varchar(1) NOT NULL,
   `Phone` bigint(10) NOT NULL,
   `Address` varchar(100) NOT NULL,
   `City` varchar(20) NOT NULL,
   `State` varchar(20) NOT NULL,
-  `Adhaar_number` bigint(12) NOT NULL
+  `Adhaar_number` bigint(12) NOT NULL,
+  `DOJ` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `candidate_details`
 --
 
-INSERT INTO `candidate_details` (`User_id`, `User_type_id`, `Name`, `Email`, `Age`, `Gender`, `Phone`, `Address`, `City`, `State`, `Adhaar_number`) VALUES
-(2, 3, 'Gaurav Bhojwani', 'gaurav.bhojwani@gmail.com', 21, 'M', 9870145876, '301, ISCON-2', 'Ahmedabad', 'Gujarat', 111122223333),
-(4, 5, 'Trilok Sharma', 'trilok.sharma@gmail.com', 21, 'M', 8824759861, '12/A, Laxminagar', 'Baroda', 'Gujarat', 202303404505),
-(5, 7, 'Rohan Gupta', 'Rohan.gupta@gmail.com', 23, 'M', 9845632147, '401, Fatehgunj', 'Vadodara', 'Gujarat', 651324879536),
-(6, 13, 'Prakash Mehta', 'prakash.mehta@gmail.com', 23, 'M', 9456872451, 'Station Road', 'Kota ', 'Rajasthan', 456874521368),
-(7, 14, 'siddhesh Jain', 'siddhesh.jain@gmail.com', 22, 'M', 9785687417, 'Pragati Nagar ', 'Dungarpur', 'Rajasthan', 368945678125),
-(8, 16, 'Sanjay Mehta', 'sanjay.mehta@gmail.com', 26, 'M', 9456879412, 'Navrangpura ', 'Ahmedabad', 'Gujarat', 354124789654),
-(9, 21, 'Sheetal Mehta', 'Sheetalmehta@gmail.com', 23, 'F', 9456781348, 'Sector 15 ', 'Chittaurgarh', 'Rajasthan', 466878954647),
-(10, 22, 'Kunti Roy', 'kuntirox@gmail.com', 25, 'F', 9456123475, 'Sector 2', 'Rajsamand', 'Rajasthan', 452367894564),
-(11, 23, 'Jaya Shukla', 'jayashukla@gmail.com', 21, 'F', 9456788464, 'New Market', 'Patiyaa', 'Gujarat', 458796421354),
-(12, 24, 'Aishwarya Patil', 'Aishwaryapatil@gmail.com', 22, 'F', 9458764859, 'New Port Road', 'Pune ', 'Maharashtra', 945687456985);
+INSERT INTO `candidate_details` (`User_id`, `User_type_id`, `Name`, `Email`, `Dob`, `Gender`, `Phone`, `Address`, `City`, `State`, `Adhaar_number`, `DOJ`) VALUES
+(2, 3, 'Gaurav Bhojwani', 'gaurav.bhojwani@gmail.com', '1999-03-11', 'M', 9870145876, '301, ISCON-2', 'Ahmedabad', 'Gujarat', 111122223333, '2019-11-01'),
+(4, 5, 'Trilok Sharma', 'trilok.sharma@gmail.com', '1998-08-12', 'M', 8824759861, '12/A, Laxminagar', 'Baroda', 'Gujarat', 202303404505, '2019-09-02'),
+(5, 7, 'Rohan Gupta', 'Rohan.gupta@gmail.com', '1999-07-07', 'M', 9845632147, '401, Fatehgunj', 'Vadodara', 'Gujarat', 651324879536, '2020-07-09'),
+(6, 13, 'Prakash Mehta', 'prakash.mehta@gmail.com', '1999-06-09', 'M', 9456872451, 'Station Road', 'Kota ', 'Rajasthan', 456874521368, '2020-05-31'),
+(7, 14, 'siddhesh Jain', 'siddhesh.jain@gmail.com', '1998-12-10', 'M', 9785687417, 'Pragati Nagar ', 'Dungarpur', 'Rajasthan', 368945678125, '2020-05-22'),
+(8, 16, 'Sanjay Mehta', 'sanjay.mehta@gmail.com', '1999-05-10', 'M', 9456879412, 'Navrangpura ', 'Ahmedabad', 'Gujarat', 354124789654, '2020-04-01'),
+(9, 21, 'Sheetal Mehta', 'Sheetalmehta@gmail.com', '1999-06-07', 'F', 9456781348, 'Sector 15 ', 'Chittaurgarh', 'Rajasthan', 466878954647, '2020-10-05'),
+(10, 22, 'Kunti Roy', 'kuntirox@gmail.com', '1999-07-07', 'F', 9456123475, 'Sector 2', 'Rajsamand', 'Rajasthan', 452367894564, '2020-02-13'),
+(11, 23, 'Jaya Shukla', 'jayashukla@gmail.com', '1998-10-08', 'F', 9456788464, 'New Market', 'Patiyaa', 'Gujarat', 458796421354, '2020-01-17'),
+(12, 24, 'Aishwarya Patil', 'Aishwaryapatil@gmail.com', '1998-12-02', 'F', 9458764859, 'New Port Road', 'Pune ', 'Maharashtra', 945687456985, '2020-08-31'),
+(36, 36, 'Bhuvan Bam', 'bhuvan@gmail.com', '1994-01-22', 'M', 9149102219, 'Rohini', 'New Delhi', 'NCT Delhi', 914910221955, '2019-07-22'),
+(37, 37, 'Ranveer Allahbadia', 'ranveerallahbadia@gmail.com', '1993-06-23', 'M', 9931613277, 'Paul Road', 'Chennai', 'Tamil Nadu', 7723116139977, '2019-07-10'),
+(38, 38, 'Sejal Kumar', 'sejalkumar@gmail.com', '1995-01-01', 'F', 9195100155, 'Sector 10', 'Gurugram', 'Haryana', 551001591955, '2019-08-16'),
+(39, 39, 'Prachi Keswani', 'prachi@gmail.com', '2000-01-05', 'F', 6213391086, 'New Orlando Building', 'Faridabad', 'Haryana', 680193312696, '2020-05-01'),
+(40, 40, 'Rohit Raj', 'rohitraj@gmail.com', '1993-04-08', 'M', 8040399108, 'Chinatown', 'Kolkata', 'West Bengal', 801993040801, '2020-09-25'),
+(41, 41, 'Harsh Beniwal', 'harshbeniwal@gmail.com', '1996-02-13', 'M', 9961213157, 'M G Road', 'Pune', 'Maharashtra', 437567795441, '2020-10-13'),
+(42, 42, 'Aranya Johar', 'aranyajohar@gmail.com', '1998-09-07', 'F', 7090899753, 'Indraprasth Nagar', 'Indore', 'Madhya Pradesh', 357998090716, '2020-03-18'),
+(43, 43, 'Anisha Dixit', 'anishadixit@gmail.com', '1994-01-17', 'F', 7101499166, 'Munich Towers', 'Lucknow', 'Uttar Pradesh', 761606114993, '2019-03-21'),
+(44, 44, 'Kumar Varun', 'kumarvarun@gmail.com', '1995-11-27', 'M', 9511279166, 'Escalade 12', 'Ahmedabad', 'Gujarat', 366199721195, '2019-11-25'),
+(45, 45, 'Tanmay Singh', 'tanmaysingh@gmail.com', '1996-07-04', 'M', 7096409155, 'L&T 5', 'Kolkata', 'West Bengal', 551904690711, '2020-05-05');
 
 -- --------------------------------------------------------
 
@@ -188,10 +219,9 @@ INSERT INTO `centre_master` (`Centre_id`, `City`, `State`) VALUES
 CREATE TABLE `complaint_details` (
   `Complaint_id` int(20) NOT NULL,
   `User_id` int(20) DEFAULT NULL,
-  `Type` enum('Link Unavailable','Exam Unavailable','Course Unavailable','Cant Enroll','Form Unavailable','Other') NOT NULL,
-  `Applied_id` int(20) DEFAULT NULL,
-  `Description` varchar(200) NOT NULL,
   `Form_id` int(20) NOT NULL,
+  `Type` enum('Link Unavailable','Exam Unavailable','Course Unavailable','Cant Enroll','Form Unavailable','Other') NOT NULL,
+  `Description` varchar(200) NOT NULL,
   `forward` enum('Yes','No','','') NOT NULL DEFAULT 'No'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -199,12 +229,12 @@ CREATE TABLE `complaint_details` (
 -- Dumping data for table `complaint_details`
 --
 
-INSERT INTO `complaint_details` (`Complaint_id`, `User_id`, `Type`, `Applied_id`, `Description`, `Form_id`, `forward`) VALUES
-(1, 4, 'Link Unavailable', 3, 'The link is not available yet..', 2, 'Yes'),
-(2, 2, 'Cant Enroll', 1, 'in can\'t enroll', 1, 'No'),
-(3, 11, 'Form Unavailable', 5, 'Form is unavailable', 3, 'No'),
-(4, 8, 'Exam Unavailable', 7, 'Exam is Unavailable', 2, 'No'),
-(5, 4, 'Other', 1, 'Other', 7, 'No');
+INSERT INTO `complaint_details` (`Complaint_id`, `User_id`, `Form_id`, `Type`, `Description`, `forward`) VALUES
+(1, 4, 2, 'Link Unavailable', 'The link is not available yet..', 'Yes'),
+(2, 2, 1, 'Cant Enroll', 'in can\'t enroll', 'No'),
+(3, 11, 3, 'Form Unavailable', 'Form is unavailable', 'No'),
+(4, 8, 2, 'Exam Unavailable', 'Exam is Unavailable', 'No'),
+(5, 4, 7, 'Other', 'Other', 'No');
 
 -- --------------------------------------------------------
 
@@ -240,7 +270,22 @@ INSERT INTO `documents` (`Document_id`, `User_id`, `Photo`, `Signature`, `Pan_ca
 (3, 4, 'photo.trilok', 'sign.trilok', 'pan.trilok', 'ssc.trilok', 'hsc.trilok', 'ug.trilok', 'pg.trilok', '', '', 'thumb.trilok', 'adhaar.trilok', '', '', ''),
 (5, 5, 'photo.rohan', 'sign.rohan', 'pan.rohan', 'ssc.rohan', 'hsc.rohan', 'ug.rohan', 'pg.rohan', '', '', 'thumb.rohan', 'adhaar.rohan', '', '', ''),
 (6, 6, 'photo.prakash', 'sign.prakash', 'pan.prakash', 'ssc.prakash', 'hsc.prakash', 'ug.prakash', 'pg.prakash', '', '', 'thumb.prakash', 'adhaar.prakash', '', '', ''),
-(7, 7, 'photo.siddhesh', 'sign.siddhesh', 'pan.siddhesh', 'ssc.siddhesh', 'hsc.siddhesdh', 'ug.siddhesh', '', '', '', 'thumb.siddhesh', 'adhaar.siddhesh', '', '', '');
+(7, 7, 'photo.siddhesh', 'sign.siddhesh', 'pan.siddhesh', 'ssc.siddhesh', 'hsc.siddhesdh', 'ug.siddhesh', '', '', '', 'thumb.siddhesh', 'adhaar.siddhesh', '', '', ''),
+(8, 8, 'photo.sanjaymehta', 'sign.sanjaymehta', 'pan..sanjaymehta', 'ssc..sanjaymehta', 'hsc..sanjaymehta', 'ug..sanjaymehta', 'pg..sanjaymehta', '', '', 'thumb.sanjaymehta', 'adhaar.sanjaymehta', '', '', ''),
+(9, 9, 'photo.sheetalmehta', 'sign..sheetalmehta', 'pan..sheetalmehta', 'ssc.sheetalmehta', 'hsc.sheetalmehta', 'ug.sheetalmehta', '', '', '', 'thumb.sheetalmehta', 'adhaar.sheetalmehta', '', '', ''),
+(10, 10, 'photo.kuntiroy', 'sign.kuntiroy', 'pan.kuntiroy', 'ssc.kuntiroy', 'hsc.kuntiroy', 'ug.kuntiroy', 'pg.kuntiroy', '', '', 'thumb.kuntiroy', 'adhaar.kuntiroy', '', '', ''),
+(11, 11, 'photo.jayashukla', 'sign.jayashukla', 'pan.jayashukla', 'ssc.jayashukla', 'hsc.jayashukla', 'ug.jayashukla', 'pg.jayashukla', '', 'diplo.jayashukla', 'thumb.jayashukla', 'adhaar.jayashukla', '', '', ''),
+(12, 12, 'photo.aishwaryapatil', 'sign.aishwaryapatil', 'pan.aishwaryapatil', 'ssc.aishwaryapatil', 'hsc.aishwaryapatil', 'ug.aishwaryapatil', 'pg.aishwaryapatil', '', '', 'thumb.aishwaryapatil', 'adhaar.aishwaryapatil', '', '', ''),
+(36, 36, 'photo.bhuvanbam', 'sign.bhuvanbam', 'pan.bhuvanbam', 'ssc.bhuvanbam', 'hsc.bhuvanbam', 'ug.bhuvanbam', '', '', '', 'thumb.bhuvanbam', 'adhaar.bhuvanbam', '', '', ''),
+(37, 37, 'photo.ranveerallahbadia', 'sign.ranveerallahbadia', 'pan.ranveerallahbadia', 'ssc.ranveerallahbadia', 'hsc.ranveerallahbadia', 'ug.ranveerallahbadia', 'pg.ranveerallahbadia', '', 'diplo.ranveerallahbadia', 'thumb.ranveerallahbadia', 'adhaar.ranveerallahbadia', '', '', ''),
+(38, 38, 'photo.sejalkumar', 'sign.sejalkumar', 'pan.sejalkumar', 'ssc.sejalkumar', 'hsc.sejalkumar', 'ug.sejalkumar', 'pg.sejalkumar', '', 'diplo.sejalkumar', 'thumb.sejalkumar', 'adhaar.sejalkumar', '', '', ''),
+(39, 39, 'photo.prachikeswani', 'sign.prachikeswani', 'pan.prachikeswani', 'ssc.prachikeswani', '', '', '', '', '', 'thumb.prachikeswani', 'adhaar.prachikeswani', '', '', ''),
+(40, 40, 'photo.rohitraj', 'sign.rohitraj', 'pan.rohitraj', 'ssc.rohitraj', 'hsc.rohitraj', 'ug.rohitraj', 'pg.rohitraj', 'iti.rohitraj', '', 'thumb.rohitraj', 'adhaar.rohitraj', '', '', ''),
+(41, 41, 'photo.harshbeniwal', 'sign.harshbeniwal', 'pan.harshbeniwal', 'ssc.harshbeniwal', 'hsc.harshbeniwal', 'ug.harshbeniwal', '', '', '', 'thumb.harshbeniwal', 'adhaar.harshbeniwal', '', '', ''),
+(42, 42, 'photo.aranyajohar', 'sign.aranyajohar', 'pan.aranyajohar', 'ssc.aranyajohar', 'hsc.aranyajohar', 'ug.aranyajohar', 'pg.aranyajohar', '', '', 'thumb.aranyajohar', 'adhaar.aranyajohar', '', '', ''),
+(43, 43, 'photo.anishadixit', 'sign.anishadixit', 'pan.anishadixit', 'ssc.anishadixit', 'hsc.anishadixit', 'ug.anishadixit', 'pg.anishadixit', '', '', 'thumb.anishadixit', 'adhaar.anishadixit', '', '', ''),
+(44, 44, 'photo.kumarvarun', 'sign.kumarvarun', 'pan.kumarvarun', 'ssc.kumarvarun', 'hsc.kumarvarun', 'ug.kumarvarun', 'pg.kumarvarun', 'iti.kumarvarun', '', 'thumb.kumarvarun', 'adhaar.kumarvarun', '', '', ''),
+(45, 45, 'photo.tanmaysigh', 'sign.tanmaysigh', 'pan.tanmaysigh', 'ssc.tanmaysigh', 'hsc.tanmaysigh', '', '', '', '', 'thumb.tanmaysigh', 'adhaar.tanmaysigh', '', '', '');
 
 -- --------------------------------------------------------
 
@@ -253,12 +298,12 @@ CREATE TABLE `exam_form_details` (
   `Form_name` varchar(20) NOT NULL,
   `Exam_id` int(20) NOT NULL,
   `Centre_id` int(20) NOT NULL,
-  `Date_of_opening` timestamp NOT NULL DEFAULT current_timestamp(),
-  `Date_of_closing` timestamp NOT NULL DEFAULT current_timestamp(),
+  `Date_of_opening` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Date_of_closing` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `Fees` int(20) NOT NULL,
   `Eligibility` varchar(50) NOT NULL,
   `Link` varchar(50) NOT NULL,
-  `Date_of_exam` timestamp NOT NULL DEFAULT current_timestamp()
+  `Date_of_exam` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -312,8 +357,8 @@ INSERT INTO `exam_master` (`Exam_id`, `Exam_name`, `Exam_type`, `Exam_niche`, `N
 --
 
 CREATE TABLE `feedback_details` (
-  `User_id` int(20) NOT NULL,
   `Feedback_id` int(20) NOT NULL,
+  `User_id` int(20) NOT NULL,
   `Feedback_msg` varchar(700) NOT NULL,
   `Star_rating` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -322,10 +367,27 @@ CREATE TABLE `feedback_details` (
 -- Dumping data for table `feedback_details`
 --
 
-INSERT INTO `feedback_details` (`User_id`, `Feedback_id`, `Feedback_msg`, `Star_rating`) VALUES
-(2, 1, 'Very simple registration process, swiftly created exams enrollment panel, easy-to-use interface, proctored examination link, proctored invigilation reports, we find this platform to be a one-stop-destination for all exam requirement for any educational institution and Students.', 4),
-(4, 2, 'The entire examination experience for we at this platform has changed since we have registered with common entrance management platform. The once very complicated system of browsing each different websites has now not been necessary.', 3.5),
-(5, 3, 'Thank you for great service. We are able to apply for an online assessment for any examination across the region with your platform. Thanks for the good platform and great support. Our exams are going smoothly on the computer and mobile devices as well. Looking for continued support in the future.', 5);
+INSERT INTO `feedback_details` (`Feedback_id`, `User_id`, `Feedback_msg`, `Star_rating`) VALUES
+(1, 2, 'Very simple registration process, swiftly created exams enrollment panel, easy-to-use interface, proctored examination link, proctored invigilation reports, we find this platform to be a one-stop-destination for all exam requirement for any educational institution and Students.', 4),
+(2, 4, 'The entire examination experience for we at this platform has changed since we have registered with common entrance management platform. The once very complicated system of browsing each different websites has now not been necessary.', 3.5),
+(3, 5, 'Thank you for great service. We are able to apply for an online assessment for any examination across the region with your platform. Thanks for the good platform and great support. Our exams are going smoothly on the computer and mobile devices as well. Looking for continued support in the future.', 5),
+(4, 6, 'Very Simple Registration Process', 4),
+(5, 7, 'Thankyou for great service', 3.5),
+(6, 8, 'Site doesn\'t work. Bad experience', 2),
+(7, 9, 'Easy to use', 4.5),
+(8, 10, 'Can improve', 3),
+(9, 11, 'bad experience', 2.5),
+(10, 12, 'Simple and user friendly', 4),
+(11, 36, 'Swift and fast', 4.5),
+(12, 37, 'I cannot apply due to technical problems', 3),
+(13, 38, 'Great procedure', 3.5),
+(14, 39, 'Simplifies our hassle', 5),
+(15, 40, 'Hasslefree', 4),
+(16, 41, 'Troublesome', 1),
+(17, 42, 'Manageable to use', 2.5),
+(18, 43, 'Can improve', 3.5),
+(19, 44, 'Minimalist and best', 4),
+(20, 45, 'Page doesn\'t load', 2.5);
 
 -- --------------------------------------------------------
 
@@ -338,7 +400,7 @@ CREATE TABLE `manager_details` (
   `User_type_id` int(20) DEFAULT NULL,
   `Name` varchar(20) DEFAULT NULL,
   `Email` varchar(50) NOT NULL,
-  `Age` int(2) NOT NULL,
+  `Dob` date NOT NULL,
   `Gender` varchar(1) NOT NULL,
   `Phone` bigint(10) NOT NULL,
   `Address` varchar(100) NOT NULL,
@@ -346,24 +408,35 @@ CREATE TABLE `manager_details` (
   `State` varchar(20) NOT NULL,
   `Adhaar_number` bigint(12) NOT NULL,
   `status` enum('block','Unblock','','') DEFAULT 'Unblock',
-  `AFL` enum('Yes','No','','') NOT NULL DEFAULT 'No'
+  `AFL` enum('Yes','No','','') NOT NULL DEFAULT 'No',
+  `DOJ` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `manager_details`
 --
 
-INSERT INTO `manager_details` (`Manager_id`, `User_type_id`, `Name`, `Email`, `Age`, `Gender`, `Phone`, `Address`, `City`, `State`, `Adhaar_number`, `status`, `AFL`) VALUES
-(1, 2, 'Nishant Jain', 'nishant.nj2000@gmail.com', 21, 'M', 9978456812, '214 surel appartments', 'jaipur', 'Rajasthan', 100120023003, 'Unblock', 'No'),
-(3, 4, 'Ajay thakur', 'ajay.thakur@gmail.com', 22, 'M', 9548632154, '201, Pragati Nagar', 'Ahmedabad', 'Gujarat', 645869452136, 'Unblock', 'No'),
-(16, 11, 'Danny', 'Danny.wolf@gmail.com', 20, 'M', 9984576424, 'Paul Street', 'Kothrud', 'Pune', 456421357894, 'Unblock', 'No'),
-(17, 12, 'Rekha bhardwaj', 'rekha.bhardwaj@gmail.com', 22, 'F', 9456786532, 'Sector 11', 'Udaipur', 'Rajasthan', 456879451245, 'Unblock', 'No'),
-(18, 15, 'Prakash Jawde', 'prakash.jawde@gmail.com', 24, 'M', 9465794534, 'New colony ', 'Pune', 'Maharashtra', 456789456321, 'Unblock', 'No'),
-(19, 17, 'Robin Pandey', 'Robin.pandey@gmail.com', 25, 'M', 9784151264, 'Subhash Park ', 'Dungarpur', 'Rajasthan', 456874698745, 'Unblock', 'No'),
-(20, 18, 'Jayadev Mitali', 'jayadev.mitali@gmail.com', 23, 'F', 9784568745, 'Station Road', 'Vadodara', 'Gujarat', 123457896541, 'Unblock', 'No'),
-(21, 19, 'Dhrishti Jain', 'Drishtijain123@gmail.com', 21, 'F', 9554126883, 'Shivaji nagar', 'Pune', 'Maharashtra', 146624567894, 'Unblock', 'No'),
-(22, 20, 'Vijai Sritharan', 'vijaisritharan@gmail.com', 20, 'F', 9554687822, 'B- block Mahavir park', 'Ahmedabad', 'Gujarat', 456978456321, 'Unblock', 'No'),
-(23, 25, 'Ritesh Rana', 'Riteshrana@gmail.com', 25, 'F', 9785687634, '15 / A Suraj Flat', 'Ahmedabad', 'Gujarat', 546847596521, 'Unblock', 'No');
+INSERT INTO `manager_details` (`Manager_id`, `User_type_id`, `Name`, `Email`, `Dob`, `Gender`, `Phone`, `Address`, `City`, `State`, `Adhaar_number`, `status`, `AFL`, `DOJ`) VALUES
+(1, 2, 'Nishant Jain', 'nishant.nj2000@gmail.com', '1999-01-12', 'M', 9978456812, '214 surel appartments', 'jaipur', 'Rajasthan', 100120023003, 'Unblock', 'No', '2019-01-02'),
+(3, 4, 'Ajay thakur', 'ajay.thakur@gmail.com', '1998-06-16', 'M', 9548632154, '201, Pragati Nagar', 'Ahmedabad', 'Gujarat', 645869452136, 'Unblock', 'No', '2019-02-13'),
+(16, 11, 'Danny', 'Danny.wolf@gmail.com', '1998-10-14', 'M', 9984576424, 'Kothrud', 'Pune', 'Maharashtra', 456421357894, 'Unblock', 'No', '2019-01-15'),
+(17, 12, 'Rekha bhardwaj', 'rekha.bhardwaj@gmail.com', '1998-11-19', 'F', 9456786532, 'Sector 11', 'Udaipur', 'Rajasthan', 456879451245, 'Unblock', 'No', '2020-03-18'),
+(18, 15, 'Prakash Jawde', 'prakash.jawde@gmail.com', '1998-09-08', 'M', 9465794534, 'New colony ', 'Pune', 'Maharashtra', 456789456321, 'Unblock', 'No', '2020-04-01'),
+(19, 17, 'Robin Pandey', 'Robin.pandey@gmail.com', '1998-09-16', 'M', 9784151264, 'Subhash Park ', 'Dungarpur', 'Rajasthan', 456874698745, 'Unblock', 'No', '2019-05-22'),
+(20, 18, 'Jayadev Mitali', 'jayadev.mitali@gmail.com', '1998-04-08', 'F', 9784568745, 'Station Road', 'Vadodara', 'Gujarat', 123457896541, 'Unblock', 'No', '2019-05-31'),
+(21, 19, 'Dhrishti Jain', 'Drishtijain123@gmail.com', '1998-11-18', 'F', 9554126883, 'Shivaji nagar', 'Pune', 'Maharashtra', 146624567894, 'Unblock', 'No', '2019-07-09'),
+(22, 20, 'Vijai Sritharan', 'vijaisritharan@gmail.com', '1998-09-08', 'F', 9554687822, 'B- block Mahavir park', 'Ahmedabad', 'Gujarat', 456978456321, 'Unblock', 'No', '2019-09-02'),
+(23, 25, 'Ritesh Rana', 'Riteshrana@gmail.com', '1998-07-15', 'F', 9785687634, '15 / A Suraj Flat', 'Ahmedabad', 'Gujarat', 546847596521, 'Unblock', 'No', '2019-11-01'),
+(26, 26, 'Jatin Lokwani', 'jatinlokwani@gmail.com', '1999-11-02', 'M', 7567724078, 'Jawahar Chowk', 'Hyderabad', 'Telangana', 75672407820, 'Unblock', 'No', '2020-06-20'),
+(27, 27, 'Dhiren Mehtani', 'dhirenmehtani@gmail.com', '1998-12-19', 'M', 7016324619, 'VLT Apts.', 'New Delhi', 'NCT Delhi', 701632461969, 'Unblock', 'No', '2019-12-14'),
+(28, 28, 'Vishal Mehta', 'vishalmehta@gmail.com', '1997-06-08', 'M', 9979610331, 'Maninagar', 'Ahmedabad', 'Gujarat', 997961033152, 'Unblock', 'No', '2019-08-06'),
+(29, 29, 'Sagar Pandit', 'sagarpandit@gmail.com', '1998-08-17', 'M', 8128922933, 'B G Tower', 'Jaipur', 'Rajasthan', 812892293351, 'Unblock', 'No', '2019-03-20'),
+(30, 30, 'Nikhil Sharma', 'nikhilsharma@gmail.com', '1991-11-04', 'M', 9998499199, 'Powai', 'Mumbai', 'Maharashtra', 999849919969, 'Unblock', 'No', '0000-00-00'),
+(31, 31, 'Suhaani Shah', 'susha@gmail.com', '1990-01-29', 'F', 9726290166, 'Ramchandra Lane', 'Lucknow', 'Uttar Pradesh', 972629016610, 'Unblock', 'No', '2020-06-12'),
+(32, 32, 'Shanice Shreshta', 'shanice@gmail.com', '1995-07-31', 'F', 801286995, 'Malad', 'Mumbai', 'Maharashtra', 80128699512, 'Unblock', 'No', '2019-11-04'),
+(33, 33, 'Amit Badhana', 'badhanaamit@gmail.com', '1994-09-07', 'M', 9940907169, 'Khanpur Market', 'Indore', 'Madhya Pradesh', 994090716930, 'Unblock', 'No', '2018-12-21'),
+(34, 34, 'Nikunj Lotia', 'beyounick@gmail.com', '1989-07-29', 'M', 9198709242, 'Sentinel Cross road', 'Bengaluru', 'Karnataka', 919870924296, 'Unblock', 'No', '2018-12-29'),
+(35, 35, 'Ritu Rathee', 'riturathee@gmail.com', '1993-05-03', 'F', 9139500342, 'Sector 26', 'Gandhinagar', 'Gujarat', 243005931907, 'Unblock', 'No', '2020-07-17');
 
 -- --------------------------------------------------------
 
@@ -404,7 +477,27 @@ INSERT INTO `user_type_master` (`User_type_id`, `Email`, `User_type`, `Password`
 (22, 'kuntirox@gmail.com', 'Candidate', 'Kunti@123'),
 (23, 'jayashukla@gmail.com', 'Candidate', 'Jaya@123'),
 (24, 'Aishwaryapatil@gmail.com', 'Candidate', 'Aish@123'),
-(25, 'Riteshrana@gmail.com', 'Manager', 'Ritesh@123');
+(25, 'Riteshrana@gmail.com', 'Manager', 'Ritesh@123'),
+(26, 'jatinlokwani@gmail.com', 'Manager', 'Abcde@123'),
+(27, 'dhirenmehtani@gmail.com', 'Manager', 'Abcde@123'),
+(28, 'vishalmehta@gmail.com', 'Manager', 'Abcde@123'),
+(29, 'sagarpandit@gmail.com', 'Manager', 'Abcde@123'),
+(30, 'nikhilsharma@gmail.com', 'Manager', 'Abcde@123'),
+(31, 'susha@gmail.com', 'Manager', 'Abcde@123'),
+(32, 'shanice@gmail.com', 'Manager', 'Abcde@123'),
+(33, 'badhanaamit@gmail.com', 'Manager', 'Abcde@123'),
+(34, 'beyounick@gmail.com', 'Manager', 'Abcde@123'),
+(35, 'riturathee@gmail.com', 'Manager', 'Abcde@123'),
+(36, 'bhuvan@gmail.com', 'Candidate', 'Abcde@123'),
+(37, 'ranveerallahbadia@gmail.com', 'Candidate', 'Abcde@123'),
+(38, 'sejalkumar@gmail.com', 'Candidate', 'Abcde@123'),
+(39, 'prachi@gmail.com', 'Candidate', 'Abcde@123'),
+(40, 'rohitraj@gmail.com', 'Candidate', 'Abcde@123'),
+(41, 'harshbeniwal@gmail.com', 'Candidate', 'Abcde@123'),
+(42, 'aranyajohar@gmail,com', 'Candidate', 'Abcde@123'),
+(43, 'anishadixit@gmail.com', 'Candidate', 'Abcde@123'),
+(44, 'kumarvarun@gmail.com', 'Candidate', 'Abcde@123'),
+(45, 'tanmaysingh@gmail.com', 'Candidate', 'Abcde@123');
 
 --
 -- Indexes for dumped tables
@@ -461,8 +554,7 @@ ALTER TABLE `centre_master`
 ALTER TABLE `complaint_details`
   ADD PRIMARY KEY (`Complaint_id`),
   ADD UNIQUE KEY `Complaint_id` (`Complaint_id`),
-  ADD KEY `User_id` (`User_id`,`Applied_id`),
-  ADD KEY `Applied_id` (`Applied_id`),
+  ADD KEY `User_id` (`User_id`),
   ADD KEY `Form_id` (`Form_id`),
   ADD KEY `Form_id_2` (`Form_id`);
 
@@ -520,13 +612,13 @@ ALTER TABLE `user_type_master`
 -- AUTO_INCREMENT for table `applied_form`
 --
 ALTER TABLE `applied_form`
-  MODIFY `Applied_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `Applied_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `candidate_details`
 --
 ALTER TABLE `candidate_details`
-  MODIFY `User_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `User_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `centre_master`
@@ -544,7 +636,7 @@ ALTER TABLE `complaint_details`
 -- AUTO_INCREMENT for table `documents`
 --
 ALTER TABLE `documents`
-  MODIFY `Document_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Document_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `exam_form_details`
@@ -559,16 +651,22 @@ ALTER TABLE `exam_master`
   MODIFY `Exam_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
+-- AUTO_INCREMENT for table `feedback_details`
+--
+ALTER TABLE `feedback_details`
+  MODIFY `Feedback_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
 -- AUTO_INCREMENT for table `manager_details`
 --
 ALTER TABLE `manager_details`
-  MODIFY `Manager_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Manager_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `user_type_master`
 --
 ALTER TABLE `user_type_master`
-  MODIFY `User_type_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `User_type_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- Constraints for dumped tables
@@ -605,7 +703,6 @@ ALTER TABLE `centre_details`
 -- Constraints for table `complaint_details`
 --
 ALTER TABLE `complaint_details`
-  ADD CONSTRAINT `Applied_id` FOREIGN KEY (`Applied_id`) REFERENCES `applied_form` (`Applied_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `User_id` FOREIGN KEY (`User_id`) REFERENCES `candidate_details` (`User_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `complaint_details_ibfk_1` FOREIGN KEY (`Form_id`) REFERENCES `exam_form_details` (`Form_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
