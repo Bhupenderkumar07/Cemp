@@ -10,7 +10,7 @@
 <form method="POST" action="{{url_for('datewise')}}">
 <div class="row">
     <div class="col-4">
-       <label><h5 style="font-weight: bold;padding-left: 100px;">User Type :</h5></label>
+       <label><h5 style="font-weight: bold;">User Type :</h5></label>
                                      <center>
                                             <select class="form-control pl-0 form-control-line" required style="height: 40px; width: 300px" name="user">
                                                 <option>select</option>
@@ -21,13 +21,13 @@
     </div>
          
     <div class="col-4">
-         <label><h5 style="font-weight: bold;padding-left: 100px;">date from :</h5></label>
-        <input class="au-input au-input--full" type="text" id="ename" name="df" placeholder="Enter date" required style="height: 40px; width: 300px" required>
+         <label><h5 style="font-weight: bold;">Joining date from :</h5></label>
+        <input class="au-input au-input--full" type="date" id="ename" name="df" placeholder="Enter date (yyyy-mm-dd)" required style="height: 40px; width: 300px" required>
     </div>
     
     <div class="col-4">
-        <label><h5 style="font-weight: bold;padding-left: 100px;">date to :</h5></label>
-        <input class="au-input au-input--full" type="text" id="ename" name="dt" placeholder="Enter date" required style="height: 40px; width: 300px" required>            
+        <label><h5 style="font-weight: bold;">Joining date to :</h5></label>
+        <input class="au-input au-input--full" type="date" id="ename" name="dt" placeholder="Enter date (yyyy-mm-dd)" required style="height: 40px; width: 300px" required>            
     </div> 
     <div class="form-group">
     <div class="col-sm-12 mt-3 ml-2 d-flex">
@@ -42,14 +42,15 @@
 </div>
 </div>
 
+
+
+{% if ustype == "Manager" %}
 <div class="row">
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
 
 <form method="POST" action="{{url_for('datewise')}}">
-
-{% if ustype == "Manager" %}
 
 <table class="table user-table">
     
@@ -115,12 +116,13 @@
                                         </tbody>
                                         {% endfor %}
                                     </table>
-                                    {% endif %}
-                                </form>
+                                    </form>
                             </div>
                         </div>
                     </div>
                 </div>
+                                    {% endif %}
+                                
 
 
 

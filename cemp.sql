@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 30, 2020 at 03:55 PM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 7.2.10
+-- Generation Time: Nov 02, 2020 at 10:13 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -68,8 +68,8 @@ CREATE TABLE `applied_form` (
   `Exam_id` int(20) DEFAULT NULL,
   `User_id` int(20) DEFAULT NULL,
   `Registration_no` varchar(30) NOT NULL,
-  `Date_of_filling` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `Time_of_filling` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Date_of_filling` date DEFAULT current_timestamp(),
+  `Time_of_filling` time NOT NULL DEFAULT current_timestamp(),
   `centre` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -78,22 +78,22 @@ CREATE TABLE `applied_form` (
 --
 
 INSERT INTO `applied_form` (`Applied_id`, `Form_id`, `Exam_id`, `User_id`, `Registration_no`, `Date_of_filling`, `Time_of_filling`, `centre`) VALUES
-(1, 1, 1, 2, 'GJ-10001', '2020-10-10 10:43:47', '2020-10-10 10:43:47', ''),
-(3, 3, 3, 4, 'GJ-10003', '2020-10-12 10:44:53', '2020-10-10 10:44:53', ''),
-(5, 8, 8, 5, 'RG-10003', '2020-10-13 12:11:03', '2020-10-28 12:11:03', ''),
-(6, 6, 6, 10, 'PM-1006', '2020-10-19 12:11:38', '2020-10-28 12:11:38', ''),
-(7, 7, 7, 12, 'SJ-10004', '2020-10-28 12:11:03', '2020-10-28 12:11:03', ''),
-(8, 2, 1, 12, 'AH-10001', '2020-10-28 14:49:09', '2020-10-28 14:49:09', ''),
-(9, 1, 1, 36, 'BB-10505', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
-(10, 2, 2, 37, 'RA-10066', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
-(11, 3, 3, 38, 'SK-100303', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
-(12, 4, 4, 39, 'PK-10404', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
-(13, 5, 5, 40, 'RR-105505', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
-(14, 6, 6, 41, 'HB-10006', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
-(15, 7, 7, 42, 'AJ-0907', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
-(16, 8, 8, 43, 'AD-1040343', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
-(17, 1, 1, 44, 'KV-44', '2020-10-30 14:38:42', '2020-10-30 14:38:42', ''),
-(18, 2, 2, 45, 'TS-00045', '2020-10-30 14:38:42', '2020-10-30 14:38:42', '');
+(1, 1, 1, 2, 'GJ-10001', '2020-10-10', '16:13:47', ''),
+(3, 3, 3, 4, 'GJ-10003', '2020-10-12', '16:14:53', ''),
+(5, 8, 8, 5, 'RG-10003', '2020-10-13', '17:41:03', ''),
+(6, 6, 6, 10, 'PM-1006', '2020-10-19', '17:41:38', ''),
+(7, 7, 7, 12, 'SJ-10004', '2020-10-28', '17:41:03', ''),
+(8, 2, 1, 12, 'AH-10001', '2020-10-28', '20:19:09', ''),
+(9, 1, 1, 36, 'BB-10505', '2020-10-30', '20:08:42', ''),
+(10, 2, 2, 37, 'RA-10066', '2020-10-30', '20:08:42', ''),
+(11, 3, 3, 38, 'SK-100303', '2020-10-30', '20:08:42', ''),
+(12, 4, 4, 39, 'PK-10404', '2020-10-30', '20:08:42', ''),
+(13, 5, 5, 40, 'RR-105505', '2020-10-30', '20:08:42', ''),
+(14, 6, 6, 41, 'HB-10006', '2020-10-30', '20:08:42', ''),
+(15, 7, 7, 42, 'AJ-0907', '2020-10-30', '20:08:42', ''),
+(16, 8, 8, 43, 'AD-1040343', '2020-10-30', '20:08:42', ''),
+(17, 1, 1, 44, 'KV-44', '2020-10-30', '20:08:42', ''),
+(18, 2, 2, 45, 'TS-00045', '2020-10-30', '20:08:42', '');
 
 -- --------------------------------------------------------
 
@@ -218,10 +218,11 @@ INSERT INTO `centre_master` (`Centre_id`, `City`, `State`) VALUES
 
 CREATE TABLE `complaint_details` (
   `Complaint_id` int(20) NOT NULL,
-  `User_id` int(20) DEFAULT NULL,
+  `User_id` int(20) NOT NULL,
   `Form_id` int(20) NOT NULL,
   `Type` enum('Link Unavailable','Exam Unavailable','Course Unavailable','Cant Enroll','Form Unavailable','Other') NOT NULL,
   `Description` varchar(200) NOT NULL,
+  `doc` date NOT NULL,
   `forward` enum('Yes','No','','') NOT NULL DEFAULT 'No'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -229,12 +230,12 @@ CREATE TABLE `complaint_details` (
 -- Dumping data for table `complaint_details`
 --
 
-INSERT INTO `complaint_details` (`Complaint_id`, `User_id`, `Form_id`, `Type`, `Description`, `forward`) VALUES
-(1, 4, 2, 'Link Unavailable', 'The link is not available yet..', 'Yes'),
-(2, 2, 1, 'Cant Enroll', 'in can\'t enroll', 'No'),
-(3, 11, 3, 'Form Unavailable', 'Form is unavailable', 'No'),
-(4, 8, 2, 'Exam Unavailable', 'Exam is Unavailable', 'No'),
-(5, 4, 7, 'Other', 'Other', 'No');
+INSERT INTO `complaint_details` (`Complaint_id`, `User_id`, `Form_id`, `Type`, `Description`, `doc`, `forward`) VALUES
+(1, 4, 2, 'Link Unavailable', 'The link is not available yet..', '2020-10-21', 'Yes'),
+(2, 2, 1, 'Cant Enroll', 'in can\'t enroll', '2019-11-05', 'No'),
+(3, 11, 3, 'Form Unavailable', 'Form is unavailable', '2019-01-08', 'No'),
+(4, 8, 2, 'Exam Unavailable', 'Exam is Unavailable', '2019-05-01', 'No'),
+(5, 4, 7, 'Other', 'Other', '2018-03-06', 'No');
 
 -- --------------------------------------------------------
 
@@ -298,12 +299,12 @@ CREATE TABLE `exam_form_details` (
   `Form_name` varchar(20) NOT NULL,
   `Exam_id` int(20) NOT NULL,
   `Centre_id` int(20) NOT NULL,
-  `Date_of_opening` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Date_of_closing` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `Date_of_opening` date NOT NULL DEFAULT current_timestamp(),
+  `Date_of_closing` date NOT NULL DEFAULT current_timestamp(),
   `Fees` int(20) NOT NULL,
   `Eligibility` varchar(50) NOT NULL,
   `Link` varchar(50) NOT NULL,
-  `Date_of_exam` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `Date_of_exam` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -311,14 +312,14 @@ CREATE TABLE `exam_form_details` (
 --
 
 INSERT INTO `exam_form_details` (`Form_id`, `Form_name`, `Exam_id`, `Centre_id`, `Date_of_opening`, `Date_of_closing`, `Fees`, `Eligibility`, `Link`, `Date_of_exam`) VALUES
-(1, 'NIMCET', 1, 1, '2020-10-10 10:40:53', '2020-10-10 10:40:53', 1500, 'Bachelor\'s Degree from any university', 'form1.link', '2020-10-30 18:30:00'),
-(2, 'MAHCET', 2, 2, '2020-10-10 10:42:35', '2020-10-10 10:42:35', 4000, 'Senior Secondary Exam [High School] in any stream ', 'form2.link', '2020-10-30 18:30:00'),
-(3, 'NEET-JEE', 3, 4, '2020-10-10 10:42:35', '2020-10-10 10:42:35', 1200, 'Candidates who have appeared for Class 12 exam', 'form3.link', '2020-10-29 18:30:00'),
-(4, 'GATE', 4, 6, '2020-10-28 11:46:49', '2020-10-28 11:46:49', 2000, 'Bachelor\'s', 'form4.link', '2020-10-28 11:46:49'),
-(5, 'IES', 5, 9, '2020-10-28 11:51:18', '2020-10-28 11:51:18', 500, 'Degree in Engineering', 'form5.link', '2020-10-28 11:51:18'),
-(6, 'AIIMS', 6, 11, '2020-10-28 11:51:18', '2020-10-28 11:51:18', 400, 'Minimum Marks in Physics, Chemistry, Biology: For ', 'form6.link', '2020-10-28 11:51:18'),
-(7, 'NDA', 7, 10, '2020-10-28 11:53:53', '2020-10-28 11:53:53', 1750, '10+2 passed', 'form7.link', '2020-10-28 11:53:53'),
-(8, 'NID', 8, 1, '2020-10-28 11:53:53', '2020-10-28 11:53:53', 2750, 'B.Des', 'form8.link', '2020-10-28 11:53:53');
+(1, 'NIMCET', 1, 1, '2020-08-06', '2020-11-13', 1500, 'Bachelor\'s Degree from any university', 'form1.link', '2020-10-31'),
+(2, 'MAHCET', 2, 2, '2020-10-10', '2020-10-10', 4000, 'Senior Secondary Exam [High School] in any stream ', 'form2.link', '2020-10-31'),
+(3, 'NEET-JEE', 3, 4, '2020-10-10', '2020-10-10', 1200, 'Candidates who have appeared for Class 12 exam', 'form3.link', '2020-10-30'),
+(4, 'GATE', 4, 6, '2020-10-28', '2020-10-28', 2000, 'Bachelor\'s', 'form4.link', '2020-10-28'),
+(5, 'IES', 5, 9, '2020-10-28', '2020-10-28', 500, 'Degree in Engineering', 'form5.link', '2020-10-28'),
+(6, 'AIIMS', 6, 11, '2020-10-28', '2020-10-28', 400, 'Minimum Marks in Physics, Chemistry, Biology: For ', 'form6.link', '2020-10-28'),
+(7, 'NDA', 7, 10, '2020-10-28', '2020-10-28', 1750, '10+2 passed', 'form7.link', '2020-10-28'),
+(8, 'NID', 8, 1, '2020-10-28', '2020-10-28', 2750, 'B.Des', 'form8.link', '2020-10-28');
 
 -- --------------------------------------------------------
 
@@ -360,34 +361,35 @@ CREATE TABLE `feedback_details` (
   `Feedback_id` int(20) NOT NULL,
   `User_id` int(20) NOT NULL,
   `Feedback_msg` varchar(700) NOT NULL,
-  `Star_rating` float NOT NULL
+  `Star_rating` float NOT NULL,
+  `dof` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `feedback_details`
 --
 
-INSERT INTO `feedback_details` (`Feedback_id`, `User_id`, `Feedback_msg`, `Star_rating`) VALUES
-(1, 2, 'Very simple registration process, swiftly created exams enrollment panel, easy-to-use interface, proctored examination link, proctored invigilation reports, we find this platform to be a one-stop-destination for all exam requirement for any educational institution and Students.', 4),
-(2, 4, 'The entire examination experience for we at this platform has changed since we have registered with common entrance management platform. The once very complicated system of browsing each different websites has now not been necessary.', 3.5),
-(3, 5, 'Thank you for great service. We are able to apply for an online assessment for any examination across the region with your platform. Thanks for the good platform and great support. Our exams are going smoothly on the computer and mobile devices as well. Looking for continued support in the future.', 5),
-(4, 6, 'Very Simple Registration Process', 4),
-(5, 7, 'Thankyou for great service', 3.5),
-(6, 8, 'Site doesn\'t work. Bad experience', 2),
-(7, 9, 'Easy to use', 4.5),
-(8, 10, 'Can improve', 3),
-(9, 11, 'bad experience', 2.5),
-(10, 12, 'Simple and user friendly', 4),
-(11, 36, 'Swift and fast', 4.5),
-(12, 37, 'I cannot apply due to technical problems', 3),
-(13, 38, 'Great procedure', 3.5),
-(14, 39, 'Simplifies our hassle', 5),
-(15, 40, 'Hasslefree', 4),
-(16, 41, 'Troublesome', 1),
-(17, 42, 'Manageable to use', 2.5),
-(18, 43, 'Can improve', 3.5),
-(19, 44, 'Minimalist and best', 4),
-(20, 45, 'Page doesn\'t load', 2.5);
+INSERT INTO `feedback_details` (`Feedback_id`, `User_id`, `Feedback_msg`, `Star_rating`, `dof`) VALUES
+(1, 2, 'Very simple registration process, swiftly created exams enrollment panel, easy-to-use interface, proctored examination link, proctored invigilation reports, we find this platform to be a one-stop-destination for all exam requirement for any educational institution and Students.', 4, '2020-11-10'),
+(2, 4, 'The entire examination experience for we at this platform has changed since we have registered with common entrance management platform. The once very complicated system of browsing each different websites has now not been necessary.', 3.5, '2020-07-15'),
+(3, 5, 'Thank you for great service. We are able to apply for an online assessment for any examination across the region with your platform. Thanks for the good platform and great support. Our exams are going smoothly on the computer and mobile devices as well. Looking for continued support in the future.', 5, '2020-03-04'),
+(4, 6, 'Very Simple Registration Process', 4, '2020-02-06'),
+(5, 7, 'Thankyou for great service', 3.5, '2019-02-06'),
+(6, 8, 'Site doesn\'t work. Bad experience', 2, '2018-11-01'),
+(7, 9, 'Easy to use', 4.5, '0000-00-00'),
+(8, 10, 'Can improve', 3, '0000-00-00'),
+(9, 11, 'bad experience', 2.5, '0000-00-00'),
+(10, 12, 'Simple and user friendly', 4, '0000-00-00'),
+(11, 36, 'Swift and fast', 4.5, '0000-00-00'),
+(12, 37, 'I cannot apply due to technical problems', 3, '0000-00-00'),
+(13, 38, 'Great procedure', 3.5, '0000-00-00'),
+(14, 39, 'Simplifies our hassle', 5, '0000-00-00'),
+(15, 40, 'Hasslefree', 4, '0000-00-00'),
+(16, 41, 'Troublesome', 1, '0000-00-00'),
+(17, 42, 'Manageable to use', 2.5, '0000-00-00'),
+(18, 43, 'Can improve', 3.5, '0000-00-00'),
+(19, 44, 'Minimalist and best', 4, '0000-00-00'),
+(20, 45, 'Page doesn\'t load', 2.5, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -407,7 +409,7 @@ CREATE TABLE `manager_details` (
   `City` varchar(20) NOT NULL,
   `State` varchar(20) NOT NULL,
   `Adhaar_number` bigint(12) NOT NULL,
-  `status` enum('block','Unblock','','') DEFAULT 'Unblock',
+  `status` enum('block','Unblock','','') NOT NULL DEFAULT 'Unblock',
   `AFL` enum('Yes','No','','') NOT NULL DEFAULT 'No',
   `DOJ` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -418,11 +420,11 @@ CREATE TABLE `manager_details` (
 
 INSERT INTO `manager_details` (`Manager_id`, `User_type_id`, `Name`, `Email`, `Dob`, `Gender`, `Phone`, `Address`, `City`, `State`, `Adhaar_number`, `status`, `AFL`, `DOJ`) VALUES
 (1, 2, 'Nishant Jain', 'nishant.nj2000@gmail.com', '1999-01-12', 'M', 9978456812, '214 surel appartments', 'jaipur', 'Rajasthan', 100120023003, 'Unblock', 'No', '2019-01-02'),
-(3, 4, 'Ajay thakur', 'ajay.thakur@gmail.com', '1998-06-16', 'M', 9548632154, '201, Pragati Nagar', 'Ahmedabad', 'Gujarat', 645869452136, 'Unblock', 'No', '2019-02-13'),
-(16, 11, 'Danny', 'Danny.wolf@gmail.com', '1998-10-14', 'M', 9984576424, 'Kothrud', 'Pune', 'Maharashtra', 456421357894, 'Unblock', 'No', '2019-01-15'),
-(17, 12, 'Rekha bhardwaj', 'rekha.bhardwaj@gmail.com', '1998-11-19', 'F', 9456786532, 'Sector 11', 'Udaipur', 'Rajasthan', 456879451245, 'Unblock', 'No', '2020-03-18'),
-(18, 15, 'Prakash Jawde', 'prakash.jawde@gmail.com', '1998-09-08', 'M', 9465794534, 'New colony ', 'Pune', 'Maharashtra', 456789456321, 'Unblock', 'No', '2020-04-01'),
-(19, 17, 'Robin Pandey', 'Robin.pandey@gmail.com', '1998-09-16', 'M', 9784151264, 'Subhash Park ', 'Dungarpur', 'Rajasthan', 456874698745, 'Unblock', 'No', '2019-05-22'),
+(3, 4, 'Ajay thakur', 'ajay.thakur@gmail.com', '1998-06-16', 'M', 9548632154, '201, Pragati Nagar', 'Ahmedabad', 'Gujarat', 645869452136, 'block', 'No', '2019-02-13'),
+(16, 11, 'Danny', 'Danny.wolf@gmail.com', '1998-10-14', 'M', 9984576424, 'Kothrud', 'Pune', 'Maharashtra', 456421357894, 'block', 'No', '2019-01-15'),
+(17, 12, 'Rekha bhardwaj', 'rekha.bhardwaj@gmail.com', '1998-11-19', 'F', 9456786532, 'Sector 11', 'Udaipur', 'Rajasthan', 456879451245, 'block', 'No', '2020-03-18'),
+(18, 15, 'Prakash Jawde', 'prakash.jawde@gmail.com', '1998-09-08', 'M', 9465794534, 'New colony ', 'Pune', 'Maharashtra', 456789456321, 'block', 'No', '2020-04-01'),
+(19, 17, 'Robin Pandey', 'Robin.pandey@gmail.com', '1998-09-16', 'M', 9784151264, 'Subhash Park ', 'Dungarpur', 'Rajasthan', 456874698745, 'block', 'No', '2019-05-22'),
 (20, 18, 'Jayadev Mitali', 'jayadev.mitali@gmail.com', '1998-04-08', 'F', 9784568745, 'Station Road', 'Vadodara', 'Gujarat', 123457896541, 'Unblock', 'No', '2019-05-31'),
 (21, 19, 'Dhrishti Jain', 'Drishtijain123@gmail.com', '1998-11-18', 'F', 9554126883, 'Shivaji nagar', 'Pune', 'Maharashtra', 146624567894, 'Unblock', 'No', '2019-07-09'),
 (22, 20, 'Vijai Sritharan', 'vijaisritharan@gmail.com', '1998-09-08', 'F', 9554687822, 'B- block Mahavir park', 'Ahmedabad', 'Gujarat', 456978456321, 'Unblock', 'No', '2019-09-02'),

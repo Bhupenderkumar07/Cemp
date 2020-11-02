@@ -5,6 +5,7 @@
 <div class="row">
                     <div class="col-12">
                         {% for item in data %}
+                        <form name="form" method="Post" action="{{url_for('managemanager')}}">
                         <div class="card">
                             <div class="card-body">
 <table class="table user-table">
@@ -22,15 +23,23 @@
                                         <tbody>
                                             <tr>
                                                 <td>{{ item['manager_id'] }}</td>
+                                                <input type="hidden" name="mid" value="{{ item['manager_id'] }}">
                                                 <td>{{ item['name'] }}</td>
                                                 <td>{{ item['gender'] }}</td>
                                                 <td>{{ item['city'] }}</td>
                                                 <td>{{ item['Adhaar_number'] }}</td>
                                                 <td>{{ item['afl'] }}</td>
                                                 <td>{{ item['status'] }}</td>
-                                                <td><button class="btn btn-warning mx-auto mx-md-0 text-white">
+                                                {% if item['status'] == "blocked "%}
+                                                <td><button class="btn btn-warning mx-auto mx-md-0 text-white disabled ">
                                             Change Status
                                             </button></td>
+                                            {% endif %}
+                                            {% if item['status'] == "Unblock" %}
+                                                <td><button class="btn btn-warning mx-auto mx-md-0 text-white" name="button1">
+                                            Change Status
+                                            </button></td>
+                                            {% endif %}
                                             </tr>
 
                                          
@@ -40,6 +49,7 @@
                                 
                             </div>
                         </div>
+                    </form>
                           {% endfor %}
                     </div>
 </div>
