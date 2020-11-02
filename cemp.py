@@ -399,6 +399,7 @@ def fillform():
 	if request.method=='POST':
 		if "button1" in request.form:
 			cen=[]
+			fc1=""
 			c1=request.form['c1']
 			c2=request.form['c2']
 			c3=request.form['c3']
@@ -408,12 +409,14 @@ def fillform():
 			print(cen)
 			fc=random.choices(cen)
 			print(fc)
+			fc1=fc1.join(fc)
+			print(fc1)
 			aid=""
 			dof=date.today()
 			now = datetime.now()
 			tof= now.strftime("%H:%M:%S")
-			mysql_query("insert into applied_form values('{}','{}','{}','{}','{}','{}','{}','{}')".format(aid,session['fid'],session['eid'],session['user_id'],rid,dof,tof,fc))
-			return redirect(url_for('registerationId'),rid=rid)
+			mysql_query("insert into applied_form values('{}','{}','{}','{}','{}','{}','{}','{}')".format(aid,session['fid'],session['eid'],session['user_id'],rid,dof,tof,fc1))
+			return redirect(url_for('registrationId'),registrationId(rid))
 		if "button2" in request.form:
 			return redirect(url_for('viewform'))
 		if "button3" in request.form:
@@ -423,10 +426,11 @@ def fillform():
 #Registration code display:
 @app.route("/registration complete/",methods=["GET","POST"])
 def registrationId():
+	rid=regid()
 	passw=regid()
 	if request.method=="POST":
-		if "button1" in request.form:
-			return redirect(url_for('viewform'))
+		if "button2" in request.form:
+			return render_template('viewform.html')
 	return render_template("registrationId.html",passw=passw,rid=rid)
 
 

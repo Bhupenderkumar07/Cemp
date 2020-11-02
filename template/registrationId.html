@@ -1,30 +1,32 @@
 {% extends "dashboard.html" %}
 {% block content %}
-<!--Show complaint -->
-                    
+<!--Show complaint -->                   
 <div class="row">
                     <div class="col-12">
-                        {% for item in data %}
                         <form action="{{('registrationId')}}" method="Post">
                         
                         <div class="card">
                             <div class="card-body">
-                            <center><h3><u> Registration successfull :</u></h3></center>
+                            <center><h3 style="font-color:'blue';"> <u>Registration successfull</u></h3></center>
+                        </br>
                             <h4> Your registration is complete and your registration id is : {{ regid }}
                             </h4>
                         </br>
-                        <h4>Your password is : {{ pass }}
+                        <h4>Your password is : {{ passw }}
     
                                 
                             </div>
-                        </div>
-                        <div>
-                            <button class="btn btn-warning mx-auto mx-md-0 text-white" type="submit" name="button1">
+                            <div class="form-group">
+                                                        <div class="col-12 ml-2 mb-2">
+
+                            <button class="btn btn-warning mx-auto mx-md-0 text-white" type="submit" name="button2">
                             Close
                         </button>
                         </div>
+                    </div>
+                        
+                            
                         </form>
-                        {% endfor %}
 
                     </div>
 
