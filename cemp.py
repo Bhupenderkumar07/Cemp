@@ -312,13 +312,14 @@ def submitcomplaint():
 	data=mysql_query("select form_id,form_name from exam_form_details")
 	if request.method=="POST":
 		if "button1" in request.form:
+			doc=date.today()
 			c=""
 			userid=session['user_id']
 			ctype=request.form['type']
 			fname=request.form['fname']
 			forward="no"
 			desc=request.form['desc']
-			mysql_query("insert into complaint_details values('{}','{}','{}','{}','{}','{}')".format(c,userid,ctype,desc,fname,forward))
+			mysql_query("insert into complaint_details values('{}','{}','{}','{}','{}','{}','{}')".format(c,userid,fname,ctype,desc,doc,forward))
 			redirect(url_for('submitcomplaint'))
 	return render_template("submitcomplaint.html",data=data)
 #END
@@ -352,10 +353,11 @@ def submitfeedback():
 	if request.method=="POST":
 		if "button1" in request.form:
 			fid=" "
+			dof=date.today()
 			userid=session['user_id']
 			desc=request.form['desc']
 			rating=request.form['rating']
-			mysql_query("insert into feedback_details values('{}','{}','{}','{}')".format(fid,userid,desc,rating))
+			mysql_query("insert into feedback_details values('{}','{}','{}','{}','{}')".format(fid,userid,desc,rating,dof))
 			redirect(url_for('submitfeedback'))
 	return render_template("submitfeedback.html")
 #END
@@ -466,16 +468,22 @@ def Admitcard():
 			fname=request.form['fname']
 			doe=request.form['doe']
 			link=request.form['link']
-			mysql_query("UPDATE admit_card_details set card_available='{}',issue_date='{}',date_of_exam='{}',link='{}', where form_id='{}'".format(card,cur,doe,link,fname))
+			mysql_query("UPDATE admit_card_details set card_available='{}',issue_date='{}',date_of_exam='{}',link='{}' where form_id='{}'".format(card,cur,doe,link,fname))
 			redirect(url_for('Admitcard'))
 	return render_template("admitcardlink.html",form=form)
 
 
 #Manage Managers
 
-@app.route('/managemanager/')
+@app.route('/managemanager/',methods=['GET','POST'])
 def managemanager():
 	data=mysql_query("select manager_id,name,city,gender,Adhaar_number,afl,status from manager_details")
+	if request.method=="POST":
+		mid=request.form['mid']
+		if "button1" in request.form:
+			st="block"
+			mysql_query("UPDATE manager_details set status='{}' where manager_id='{}'".format(st,mid))
+			return redirect(url_for('managemanager'))	
 	return render_template('managemanager.html',data=data)
 
 #END
@@ -575,8 +583,97 @@ def areawise():
 	return render_template("areawise.html")
 
 
+@app.route('/complaintwise',methods=['GET','POST'])
+def complaintwise():
+	if request.method=="POST":
+		ustype=request.form['user']
+		df=request.form['df']
+		dt=request.form['dt']
+		print(ustype)
+		if "button1" in request.form:
+			if ustype=="Candidate":
+				data=mysql_query("select candidate_details.user_id,complaint_details.forward,candidate_details.name,candidate_details.email,candidate_details.Adhaar_number,candidate_details.gender,candidate_details.city from candidate_details join complaint_details on candidate_details.user_id = complaint_details.user_id where doc between '{}' and '{}'".format(df,dt))
+				print(data)
+				return render_template('complaintwise.html',data=data,ustype=ustype)
+	return render_template("complaintwise.html")
 
 
+
+@app.route('/feedbackwise',methods=['GET','POST'])
+def feedbackwise():
+	if request.method=="POST":
+		ustype=request.form['user']
+		df=request.form['df']
+		dt=request.form['dt']
+		print(ustype)
+		if "button1" in request.form:
+			if ustype=="Candidate":
+				data=mysql_query("select candidate_details.user_id,candidate_details.name,candidate_details.email,candidate_details.Adhaar_number,candidate_details.gender,candidate_details.city from candidate_details join feedback_details on candidate_details.user_id = feedback_details.user_id where dof between '{}' and '{}'".format(df,dt))
+				return render_template('feedbackwise.html',data=data,ustype=ustype)
+	return render_template("feedbackwise.html")
+
+
+@app.route('/examwise',methods=['GET','POST'])
+def examwise():
+	exam=mysql_query("select exam_name,exam_type,name_of_organisation from exam_master")
+	if request.method=="POST":
+		evalue=request.form['button2']
+		ename=request.form['ename']
+		etype=request.form['type']
+		noo=request.form['noo']
+		if "button2" in request.form:
+				data=mysql_query("select exam_id,exam_name,exam_type,exam_niche,name_of_organisation,city,state from exam_master where exam_name='{}' or exam_type='{}' or name_of_organisation='{}'".format(ename,etype,noo))
+				print(data)
+				print(evalue)
+				return render_template('examwise.html',data=data,evalue=evalue,exam=exam)
+	return render_template("examwise.html",exam=exam)
+
+
+
+@app.route('/formwise',methods=['GET','POST'])
+def formwise():
+	form=mysql_query("select form_name from exam_form_details")
+	if request.method=="POST":
+		evalue=request.form['button2']
+		name=request.form['fname']
+		od=request.form['od']
+		cd=request.form['cd']
+		centre=request.form['city']
+		if "button2" in request.form:
+				data=mysql_query("select distinct exam_form_details.form_id,form_name,date_of_opening,date_of_closing,date_of_exam,fees,eligibility,centre_master.city from exam_form_details join centre_master join centre_details on exam_form_details.centre_id=centre_details.centre_id where centre_master.city='{}'".format(centre))
+				data2=mysql_query("select exam_form_details.form_id,form_name,date_of_opening,date_of_closing,date_of_exam,fees,eligibility from exam_form_details  where exam_form_details.form_name='{}' or exam_form_details.date_of_opening='{}' or exam_form_details.date_of_closing='{}' ".format(name,od,cd))
+				return render_template('formwise.html',data=data,form=form,data2=data2)
+	return render_template("formwise.html",form=form)
+
+
+@app.route('/candidatewise',methods=['GET','POST'])
+def candidatewise():
+	if request.method=="POST":
+		evalue=request.form['button1']
+		name=request.form['name']
+		ad=request.form['ad']
+		gender=request.form['gender']
+		if "button1" in request.form:
+			data=mysql_query("select user_id,name,email,adhaar_number,gender,dob,city,state from candidate_details where name='{}' or adhaar_number='{}' or gender='{}'".format(name,ad,gender))
+			print(data)
+			print(evalue)
+			return render_template('candidatewise.html',data=data,evalue=evalue)
+	return render_template("candidatewise.html")
+
+
+@app.route('/managerwise',methods=['GET','POST'])
+def managerwise():
+	if request.method=="POST":
+		evalue=request.form['button1']
+		name=request.form['name']
+		ad=request.form['ad']
+		gender=request.form['gender']
+		if "button1" in request.form:
+			data=mysql_query("select manager_id,name,email,adhaar_number,gender,dob,city,state from manager_details where name='{}' or adhaar_number='{}' or gender='{}'".format(name,ad,gender))
+			print(data)
+			print(evalue)
+			return render_template('managerwise.html',data=data,evalue=evalue)
+	return render_template("managerwise.html")
 
 
 app.jinja_env.cache = {}
